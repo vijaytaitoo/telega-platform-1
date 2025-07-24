@@ -1,0 +1,182 @@
+{
+  "campaign": {
+    "name": "Tele•Ga Launch Campaign",
+    "launch_date": "2025-07-21",
+    "platforms": ["Telegram Ads", "Social Media", "Web"],
+    "brand_colors": {
+      "primary": "#F28C38",
+      "secondary": "#6C5CE7",
+      "gradient": "linear-gradient(90deg, #F28C38, #6C5CE7)"
+    }
+  },
+  "banners": [
+    {
+      "id": "banner_1",
+      "name": "Entrepreneur Shop Creator",
+      "type": "image",
+      "format": "1200x628",
+      "url": "https://telega.app/assets/banners/banner1.jpg",
+      "text": {
+        "headline": "Create your shop on Tele•Ga!",
+        "subheadline": "Start selling in Telegram today.",
+        "description": "Build your business with our drag-and-drop shop constructor"
+      },
+      "cta": {
+        "text": "Join Now",
+        "link": "https://t.me/TeleGaApp",
+        "style": {
+          "color": "#FFFFFF",
+          "background": "#000000",
+          "borderRadius": "8px",
+          "padding": "12px 24px"
+        }
+      },
+      "style": {
+        "background": "linear-gradient(90deg, #F28C38, #6C5CE7)",
+        "textColor": "#FFFFFF",
+        "fontFamily": "Inter, sans-serif",
+        "headlineSize": "32px",
+        "subheadlineSize": "18px"
+      },
+      "target_audience": {
+        "primary": "Entrepreneurs",
+        "age_range": "18-45",
+        "location": "Global",
+        "interests": ["Business", "E-commerce", "Telegram"]
+      },
+      "metrics": {
+        "tracking_id": "banner_1_shop_creator",
+        "conversion_goal": "Shop Creation",
+        "budget_allocation": 0.4
+      }
+    },
+    {
+      "id": "banner_2",
+      "name": "Consumer Marketplace",
+      "type": "image",
+      "format": "1200x628",
+      "url": "https://telega.app/assets/banners/banner2.jpg",
+      "text": {
+        "headline": "Discover products and services",
+        "subheadline": "Shop smarter in Telegram!",
+        "description": "Explore our marketplace with smart filters and one-tap booking"
+      },
+      "cta": {
+        "text": "Explore Now",
+        "link": "https://t.me/TeleGaApp",
+        "style": {
+          "color": "#FFFFFF",
+          "background": "#000000",
+          "borderRadius": "8px",
+          "padding": "12px 24px"
+        }
+      },
+      "style": {
+        "background": "linear-gradient(90deg, #F28C38, #6C5CE7)",
+        "textColor": "#FFFFFF",
+        "fontFamily": "Inter, sans-serif",
+        "headlineSize": "32px",
+        "subheadlineSize": "18px"
+      },
+      "target_audience": {
+        "primary": "Consumers",
+        "age_range": "18-55",
+        "location": "Global",
+        "interests": ["Shopping", "Services", "Telegram"]
+      },
+      "metrics": {
+        "tracking_id": "banner_2_marketplace",
+        "conversion_goal": "App Downloads",
+        "budget_allocation": 0.35
+      }
+    },
+    {
+      "id": "banner_3",
+      "name": "Affiliate Program Promo",
+      "type": "video",
+      "format": "1920x1080",
+      "duration": "30s",
+      "url": "https://telega.app/assets/banners/video1.mp4",
+      "text": {
+        "headline": "Earn Teleton with Tele•Ga",
+        "subheadline": "Invite friends and profit!",
+        "description": "Join our affiliate program and earn rewards for every referral"
+      },
+      "cta": {
+        "text": "Start Earning",
+        "link": "https://t.me/TeleGaApp",
+        "style": {
+          "color": "#FFFFFF",
+          "background": "#000000",
+          "borderRadius": "8px",
+          "padding": "12px 24px"
+        }
+      },
+      "style": {
+        "background": "linear-gradient(90deg, #F28C38, #6C5CE7)",
+        "textColor": "#FFFFFF",
+        "fontFamily": "Inter, sans-serif",
+        "headlineSize": "32px",
+        "subheadlineSize": "18px"
+      },
+      "target_audience": {
+        "primary": "Affiliates",
+        "age_range": "18-40",
+        "location": "Global",
+        "interests": ["Referral Marketing", "Passive Income", "Telegram"]
+      },
+      "metrics": {
+        "tracking_id": "banner_3_affiliate",
+        "conversion_goal": "Affiliate Signups",
+        "budget_allocation": 0.25
+      }
+    }
+  ],
+  "performance_tracking": {
+    "platforms": {
+      "telegram_ads": {
+        "enabled": true,
+        "tracking_events": ["impression", "click", "conversion"]
+      },
+      "google_analytics": {
+        "enabled": true,
+        "tracking_id": "GA_MEASUREMENT_ID"
+      },
+      "mixpanel": {
+        "enabled": true,
+        "project_token": "MIXPANEL_TOKEN"
+      }
+    },
+    "conversion_funnels": {
+      "banner_1": ["impression", "click", "app_open", "shop_creation"],
+      "banner_2": ["impression", "click", "app_open", "marketplace_browse"],
+      "banner_3": ["impression", "click", "app_open", "affiliate_signup"]
+    }
+  },
+  "a_b_testing": {
+    "enabled": true,
+    "variants": {
+      "banner_1": {
+        "variant_a": "Original design",
+        "variant_b": "Alternative CTA text",
+        "variant_c": "Different color scheme"
+      }
+    },
+    "traffic_split": {
+      "variant_a": 0.4,
+      "variant_b": 0.3,
+      "variant_c": 0.3
+    }
+  },
+  "localization": {
+    "supported_languages": ["en", "ru", "uz", "kz", "ua", "am", "ky"],
+    "translation_keys": {
+      "banner_1_headline": "top_up_paypal",
+      "banner_1_cta": "pay_with_paypal",
+      "banner_2_headline": "marketplace_discover",
+      "banner_2_cta": "explore_marketplace",
+      "banner_3_headline": "affiliate_earn",
+      "banner_3_cta": "start_earning"
+    }
+  }
+} 
