@@ -1,0 +1,127 @@
+# Dependencies
+node_modules/
+.pnp/
+.pnp.js
+
+# Testing
+coverage/
+
+# Production
+build/
+dist/
+.next/
+out/
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Backend
+backend/dist/
+backend/node_modules/
+
+# Frontend
+frontend/.next/
+frontend/node_modules/
+frontend/build/
+
+# Mobile
+mobile/node_modules/
+mobile/build/
+mobile/.expo/
+
+# Shared
+shared/node_modules/
+shared/dist/ 
+
+---
+
+### Проверьте переменные окружения
+
+Создайте файл `.env` в папке `телега 2/backend/gateway/`:
+
+```
+PORT=3030
+```
+
+---
+
+### Запуск
+
+```bash
+cd ~/телега\ 2/backend/gateway
+npm run start:dev
+```
+
+---
+
+### Проверка
+
+- Swagger: http://localhost:3030/api
+- Магазины: http://localhost:3030/api/v1/shops
+
+---
+
+**Если после этого всё равно не работает:**
+1. Покажите содержимое файла `app.module.ts`.
+2. Скопируйте сюда весь вывод из терминала после запуска команды.
+
+Я помогу навести порядок и довести проект до рабочего состояния!
+
+// backend/gateway/src/main.ts
+
+import { NestFactory } from '@nestjs/core';
+import { AppModule } from './app.module';
+import { Logger, ValidationPipe } from '@nestjs/common';
+import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+
+async function bootstrap() {
+  const app = await NestFactory.create(AppModule);
+  const logger = new Logger('Bootstrap');
+
+  // Включаем валидацию входных данных
+  app.useGlobalPipes(new ValidationPipe());
+
+  // Устанавливаем глобальный префикс для всех маршрутов API
+  app.setGlobalPrefix('api/v1');
+
+  // Настройка Swagger (документация API)
+  const config = new DocumentBuilder()
+    .setTitle('Tele•Ga API')
+    .setDescription('Документация API')
+    .setVersion('1.0')
+    .addBearerAuth()
+    .build();
+
+  const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('api', app, document);
+
+  // ✅ Вот здесь мы ОБЪЯВЛЯЕМ переменную port перед использованием
+  const port = process.env.PORT || 3030;
+
+  await app.listen(port);
+
+  logger.log(`🚀 Server is running on http://localhost:${port}`);
+  logger.log(`📄 Swagger API доступна по адресу: http://localhost:${port}/api`);
+  logger.log(`📦 Маршруты API начинаются с: http://localhost:${port}/api/v1/...`);
+}
+
+bootstrap(); 

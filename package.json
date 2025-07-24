@@ -1,0 +1,39 @@
+{
+  "name": "telega",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "backend/libs/*",
+    "backend/services/*",
+    "backend/gateway",
+    "frontend/*",
+    "shared/*"
+  ],
+  "scripts": {
+    "build": "npm run build --workspaces",
+    "test": "npm run test --workspaces",
+    "lint": "npm run lint --workspaces",
+    "start:dev": "npm run start:dev --workspace @telega/gateway",
+    "start:prod": "npm run start:prod --workspace @telega/gateway"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "eslint": "^8.0.0",
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "@nestjs/jwt": "^11.0.0",
+    "@nestjs/passport": "^11.0.5",
+    "@nestjs/typeorm": "^11.0.0",
+    "axios": "^1.10.0",
+    "compression": "^1.8.0",
+    "helmet": "^8.1.0",
+    "passport-custom": "^1.1.1",
+    "passport-jwt": "^4.0.1",
+    "telegraf": "^4.16.3",
+    "typeorm": "^0.3.25",
+    "uuid": "^11.1.0"
+  }
+}

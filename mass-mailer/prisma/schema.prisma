@@ -1,0 +1,44 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum CampaignStatus {
+  PENDING
+  IN_PROGRESS
+  COMPLETED
+  FAILED
+}
+
+enum RecipientStatus {
+  PENDING
+  SENT
+  ERROR
+}
+
+model Campaign {
+  id          String          @id @default(uuid())
+  ownerId     String
+  message     String
+  imageUrl    String?
+  buttons     Json?
+  status      CampaignStatus  @default(PENDING)
+  createdAt   DateTime        @default(now())
+  startedAt   DateTime?
+  completedAt DateTime?
+  recipients  Recipient[]
+}
+
+model Recipient {
+  id          String           @id @default(uuid())
+  campaignId  String
+  userId      String
+  status      RecipientStatus  @default(PENDING)
+  error       String?
+  sentAt      DateTime?
+  campaign    Campaign         @relation(fields: [campaignId], references: [id])
+} 

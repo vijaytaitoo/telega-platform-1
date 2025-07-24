@@ -1,0 +1,77 @@
+:root {
+  /* Light theme */
+  --primary-light: #007AFF;
+  --background-light: #FFFFFF;
+  --text-light: #000000;
+  --secondary-light: #F2F2F7;
+
+  /* Dark theme */
+  --primary-dark: #0A84FF;
+  --background-dark: #000000;
+  --text-dark: #FFFFFF;
+  --secondary-dark: #1C1C1E;
+}
+
+/* Light theme (default) */
+:root {
+  --primary: var(--primary-light);
+  --background: var(--background-light);
+  --text: var(--text-light);
+  --secondary: var(--secondary-light);
+}
+
+/* Dark theme */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --primary: var(--primary-dark);
+    --background: var(--background-dark);
+    --text: var(--text-dark);
+    --secondary: var(--secondary-dark);
+  }
+}
+
+/* Global styles */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  background-color: var(--background);
+  color: var(--text);
+}
+
+/* Responsive breakpoints */
+@media (max-width: 640px) {
+  /* Mobile styles */
+  .container {
+    padding: 1rem;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 1024px) {
+  /* Tablet styles */
+  .container {
+    padding: 2rem;
+  }
+}
+
+@media (min-width: 1025px) {
+  /* Desktop styles */
+  .container {
+    padding: 3rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+}
+
+/* TeleGa Studio specific styles */
+.telega-studio {
+  min-height: 100vh;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.telega-studio h1 {
+  color: var(--primary);
+  margin-bottom: 2rem;
+}
