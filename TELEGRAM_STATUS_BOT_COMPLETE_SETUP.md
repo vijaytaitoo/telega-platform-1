@@ -67,7 +67,7 @@ gh secret set TELEGRAM_DEPLOY_CHAT_ID --body "-1002881050960"
     -H "Content-Type: application/json" \
     -d '{
       "chat_id": "${{ secrets.TELEGRAM_DEPLOY_CHAT_ID }}",
-      "text": "✅ *Tele•Ga успешно задеплоен!*\n\n*Коммит:* `${{ github.sha }}`\n*Автор:* `${{ github.actor }}`\n\n[🔗 Открыть GitHub Actions](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})",
+      "text": "✅ *Успешный деплой!*\nКоммит: `${{ github.sha }}`\nАвтор: `${{ github.actor }}`\n[🔗 GitHub Actions](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})",
       "parse_mode": "Markdown"
     }'
 ```
@@ -82,7 +82,7 @@ gh secret set TELEGRAM_DEPLOY_CHAT_ID --body "-1002881050960"
     -H "Content-Type: application/json" \
     -d '{
       "chat_id": "${{ secrets.TELEGRAM_DEPLOY_CHAT_ID }}",
-      "text": "❌ *Ошибка деплоя!*\n\n*Коммит:* `${{ github.sha }}`\n*Автор:* `${{ github.actor }}`\n\n[🔗 Посмотреть логи](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})",
+      "text": "❌ *Ошибка деплоя!*\nКоммит: `${{ github.sha }}`\nАвтор: `${{ github.actor }}`\n[🔗 Логи GitHub Actions](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})",
       "parse_mode": "Markdown"
     }'
 ```
