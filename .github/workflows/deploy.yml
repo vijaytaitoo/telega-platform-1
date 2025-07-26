@@ -173,36 +173,20 @@ jobs:
 
       - name: Notify Telegram on success
         if: success()
-        uses: appleboy/telegram-action@master
-        with:
-          to: ${{ secrets.TELEGRAM_DEPLOY_CHAT_ID }}
-          token: ${{ secrets.TELEGRAM_DEPLOY_BOT_TOKEN }}
-          message: |
-            ✅ Tele•Ga успешно задеплоен!
-            
-            🚀 Коммит: `${{ github.sha }}`
-            👤 Автор: ${{ github.actor }}
-            📅 Время: ${{ github.event.head_commit.timestamp }}
-            
-            🔗 Ссылки:
-            • API: https://api.telega.uz
-            • Shop: https://shop.telega.uz  
-            • Studio: https://studio.telega.uz
-            
-            📊 Статус: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_DEPLOY_BOT_TOKEN }}/sendMessage" \
+            -H "Content-Type: application/json" \
+            -d '{
+              "chat_id": "${{ secrets.TELEGRAM_DEPLOY_CHAT_ID }}",
+              "text": "✅ Tele•Ga Deploy успешно завершён! 🚀\n\nКоммит: ${{ github.sha }}\nАвтор: ${{ github.actor }}\nРепозиторий: ${{ github.repository }}\n\n🔗 https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+            }'
 
       - name: Notify Telegram on failure
         if: failure()
-        uses: appleboy/telegram-action@master
-        with:
-          to: ${{ secrets.TELEGRAM_DEPLOY_CHAT_ID }}
-          token: ${{ secrets.TELEGRAM_DEPLOY_BOT_TOKEN }}
-          message: |
-            ❌ Ошибка деплоя Tele•Ga!
-            
-            🚨 Коммит: `${{ github.sha }}`
-            👤 Автор: ${{ github.actor }}
-            
-            🔗 Логи: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
-            
-            ⚠️ Проверьте логи и исправьте ошибки 
+        run: |
+          curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_DEPLOY_BOT_TOKEN }}/sendMessage" \
+            -H "Content-Type: application/json" \
+            -d '{
+              "chat_id": "${{ secrets.TELEGRAM_DEPLOY_CHAT_ID }}",
+              "text": "❌ Tele•Ga Deploy завершился с ошибкой! 🚨\n\nКоммит: ${{ github.sha }}\nАвтор: ${{ github.actor }}\nРепозиторий: ${{ github.repository }}\n\n🔗 Логи: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+            }' 
