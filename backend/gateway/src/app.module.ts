@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { ConfigModule } from '@nestjs/config';
 import { ShopsModule } from './shops/shops.module';
 import { AuthModule } from './auth/auth.module';
 import { User } from './users/user.entity';
@@ -13,17 +14,20 @@ import { TgstatController } from './tgstat/tgstat.controller';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: process.env.DB_HOST,
+      host: process.env.DB_HOST || 'localhost',
       port: +(process.env.DB_PORT || '5432'),
-      username: process.env.DB_USER,
-      password: process.env.DB_PASS,
-      database: process.env.DB_NAME,
+      username: process.env.DB_USER || 'postgres',
+      password: process.env.DB_PASS || 'password',
+      database: process.env.DB_NAME || 'telega',
       entities: [User, Product, Order, OrderItem, Shop],
-      synchronize: true, // Только для разработки! Отключите в production
+      synchronize: process.env.NODE_ENV !== 'production',
+      logging: process.env.NODE_ENV !== 'production',
     }),
-    TypeOrmModule.forFeature([User, Product, Order, OrderItem, Shop]),
     ShopsModule,
     AuthModule,
   ],
