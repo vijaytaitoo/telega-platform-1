@@ -2,6 +2,7 @@
   "name": "telega",
   "version": "1.0.0",
   "private": true,
+  "packageManager": "pnpm@10.13.1",
   "postinstall": "husky install",
   "commit": "cz",
   "config": {
@@ -41,6 +42,7 @@
     "clean:trash": "find . -name '.DS_Store' -delete && find . -name 'Thumbs.db' -delete && find . -type f -empty -delete",
     "clean:node_modules": "find . -name 'node_modules' -type d -prune -exec rm -rf '{}' +",
     "clean": "pnpm run clean:trash && pnpm run clean:node_modules",
+    "clean:react": "jscodeshift -t scripts/remove-react-import.js src --extensions=tsx,ts,js,jsx",
     "apply": "node scripts/create-env-files.js",
     "start:dev": "pnpm --filter @telega/gateway start:dev",
     "start:prod": "pnpm --filter @telega/gateway start:prod"
@@ -68,6 +70,7 @@
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-react": "^7.37.5",
     "husky": "^9.1.7",
+    "jscodeshift": "^0.15.1",
     "lint-staged": "^16.1.2",
     "prettier": "^3.6.2",
     "semantic-release": "^24.2.7",
