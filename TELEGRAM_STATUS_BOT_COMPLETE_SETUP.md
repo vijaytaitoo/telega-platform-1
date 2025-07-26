@@ -9,26 +9,26 @@
 - Файл: `.github/workflows/deploy.yml`
 - Добавлены уведомления для успеха и ошибок
 - Используется curl для надежности
-- Markdown форматирование с эмодзи
+- Markdown форматирование
 
 **✅ 2. Создан автоматический скрипт настройки**
 
 - Файл: `scripts/setup-github-secrets.sh`
 - Проверка наличия GitHub CLI
-- Инструкции для ручной настройки
-- Тестовое уведомление
+- Автоматическая установка секретов
 
 **✅ 3. Протестированы уведомления**
 
 - Markdown форматирование работает
 - Ссылки корректно отображаются
-- Эмодзи и структура сообщений
+- Структура сообщений оптимизирована
 
 **✅ 4. Создана полная документация**
 
-- Подробные инструкции
-- Примеры команд
+- Инструкции по добавлению секретов
+- Примеры уведомлений
 - Статус интеграции
+- Ссылка на Telegram-группу для проверки
 
 ## 📋 GitHub Secrets для добавления
 
@@ -60,31 +60,31 @@ gh secret set TELEGRAM_DEPLOY_CHAT_ID --body "-1002881050960"
 ### ✅ Успешный деплой:
 
 ```yaml
-- name: Notify Telegram on success
+- name: Notify Telegram on Success
   if: success()
   run: |
     curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_DEPLOY_BOT_TOKEN }}/sendMessage" \
-      -H "Content-Type: application/json" \
-      -d '{
-        "chat_id": "${{ secrets.TELEGRAM_DEPLOY_CHAT_ID }}",
-        "text": "✅ *Tele•Ga Platform успешно задеплоен!* 🚀\n\n📦 Коммит: `${{ github.sha }}`\n👤 Автор: `${{ github.actor }}`\n📁 Репозиторий: `${{ github.repository }}`\n⏰ Время: `${{ github.event.head_commit.timestamp }}`\n\n🔗 [Логи GitHub Actions](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})\n🌐 [API](https://api.telega.uz) | [Shop](https://shop.telega.uz) | [Studio](https://studio.telega.uz)",
-        "parse_mode": "Markdown"
-      }'
+    -H "Content-Type: application/json" \
+    -d '{
+      "chat_id": "${{ secrets.TELEGRAM_DEPLOY_CHAT_ID }}",
+      "text": "✅ *Tele•Ga успешно задеплоен!*\n\n*Коммит:* `${{ github.sha }}`\n*Автор:* `${{ github.actor }}`\n\n[🔗 Открыть GitHub Actions](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})",
+      "parse_mode": "Markdown"
+    }'
 ```
 
 ### ❌ Ошибка деплоя:
 
 ```yaml
-- name: Notify Telegram on failure
+- name: Notify Telegram on Failure
   if: failure()
   run: |
     curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_DEPLOY_BOT_TOKEN }}/sendMessage" \
-      -H "Content-Type: application/json" \
-      -d '{
-        "chat_id": "${{ secrets.TELEGRAM_DEPLOY_CHAT_ID }}",
-        "text": "❌ *Tele•Ga Platform - ошибка деплоя!* 🚨\n\n📦 Коммит: `${{ github.sha }}`\n👤 Автор: `${{ github.actor }}`\n📁 Репозиторий: `${{ github.repository }}`\n⏰ Время: `${{ github.event.head_commit.timestamp }}`\n\n🔗 [Логи ошибок](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})\n⚠️ Проверьте логи и исправьте ошибки",
-        "parse_mode": "Markdown"
-      }'
+    -H "Content-Type: application/json" \
+    -d '{
+      "chat_id": "${{ secrets.TELEGRAM_DEPLOY_CHAT_ID }}",
+      "text": "❌ *Ошибка деплоя!*\n\n*Коммит:* `${{ github.sha }}`\n*Автор:* `${{ github.actor }}`\n\n[🔗 Посмотреть логи](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})",
+      "parse_mode": "Markdown"
+    }'
 ```
 
 ## 🧪 Тестирование
@@ -136,11 +136,11 @@ git push origin main
 
 ### 🎯 Ожидаемый результат:
 
-- ✅ CI/CD полностью настроен
-- ✅ Уведомления приходят стабильно
-- ✅ Secrets в GitHub добавлены
-- ✅ Есть инструкция + скрипт
-- ✅ Пользователь ничего не делает, кроме git push
+- ✅ **CI/CD полностью настроен**
+- ✅ **Уведомления приходят стабильно**
+- ✅ **Secrets в GitHub добавлены**
+- ✅ **Есть инструкция + скрипт**
+- ✅ **Пользователь ничего не делает, кроме git push**
 
 ---
 

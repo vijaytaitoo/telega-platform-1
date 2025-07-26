@@ -171,24 +171,24 @@ jobs:
           kubectl get services -n telega
           kubectl get ingress -n telega
 
-      - name: Notify Telegram on success
+      - name: Notify Telegram on Success
         if: success()
         run: |
           curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_DEPLOY_BOT_TOKEN }}/sendMessage" \
-            -H "Content-Type: application/json" \
-            -d '{
-              "chat_id": "${{ secrets.TELEGRAM_DEPLOY_CHAT_ID }}",
-              "text": "✅ *Tele•Ga Platform успешно задеплоен!* 🚀\n\n📦 Коммит: `${{ github.sha }}`\n👤 Автор: `${{ github.actor }}`\n📁 Репозиторий: `${{ github.repository }}`\n⏰ Время: `${{ github.event.head_commit.timestamp }}`\n\n🔗 [Логи GitHub Actions](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})\n🌐 [API](https://api.telega.uz) | [Shop](https://shop.telega.uz) | [Studio](https://studio.telega.uz)",
-              "parse_mode": "Markdown"
-            }'
+          -H "Content-Type: application/json" \
+          -d '{
+            "chat_id": "${{ secrets.TELEGRAM_DEPLOY_CHAT_ID }}",
+            "text": "✅ *Tele•Ga успешно задеплоен!*\n\n*Коммит:* `${{ github.sha }}`\n*Автор:* `${{ github.actor }}`\n\n[🔗 Открыть GitHub Actions](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})",
+            "parse_mode": "Markdown"
+          }'
 
-      - name: Notify Telegram on failure
+      - name: Notify Telegram on Failure
         if: failure()
         run: |
           curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_DEPLOY_BOT_TOKEN }}/sendMessage" \
-            -H "Content-Type: application/json" \
-            -d '{
-              "chat_id": "${{ secrets.TELEGRAM_DEPLOY_CHAT_ID }}",
-              "text": "❌ *Tele•Ga Platform - ошибка деплоя!* 🚨\n\n📦 Коммит: `${{ github.sha }}`\n👤 Автор: `${{ github.actor }}`\n📁 Репозиторий: `${{ github.repository }}`\n⏰ Время: `${{ github.event.head_commit.timestamp }}`\n\n🔗 [Логи ошибок](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})\n⚠️ Проверьте логи и исправьте ошибки",
-              "parse_mode": "Markdown"
-            }' 
+          -H "Content-Type: application/json" \
+          -d '{
+            "chat_id": "${{ secrets.TELEGRAM_DEPLOY_CHAT_ID }}",
+            "text": "❌ *Ошибка деплоя!*\n\n*Коммит:* `${{ github.sha }}`\n*Автор:* `${{ github.actor }}`\n\n[🔗 Посмотреть логи](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})",
+            "parse_mode": "Markdown"
+          }' 
