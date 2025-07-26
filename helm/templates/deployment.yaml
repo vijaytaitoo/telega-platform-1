@@ -1,0 +1,225 @@
+{{- if .Values.gateway.enabled }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "tele-ga.fullname" . }}-gateway
+  labels:
+    {{- include "tele-ga.labels" . | nindent 4 }}
+    component: gateway
+spec:
+  replicas: {{ .Values.gateway.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "tele-ga.selectorLabels" . | nindent 6 }}
+      component: gateway
+  template:
+    metadata:
+      labels:
+        {{- include "tele-ga.selectorLabels" . | nindent 8 }}
+        component: gateway
+    spec:
+      containers:
+        - name: gateway
+          image: "{{ .Values.gateway.image.repository }}:{{ .Values.gateway.image.tag }}"
+          imagePullPolicy: {{ .Values.gateway.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 3030
+              protocol: TCP
+          env:
+            - name: NODE_ENV
+              value: {{ .Values.gateway.env.NODE_ENV }}
+            - name: PORT
+              value: {{ .Values.gateway.env.PORT | quote }}
+            - name: DATABASE_URL
+              value: {{ .Values.gateway.env.DATABASE_URL }}
+            - name: REDIS_URL
+              value: {{ .Values.gateway.env.REDIS_URL }}
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "tele-ga.fullname" . }}-secrets
+                  key: jwt-secret
+            - name: JWT_REFRESH_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "tele-ga.fullname" . }}-secrets
+                  key: jwt-refresh-secret
+            - name: TELEGRAM_BOT_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "tele-ga.fullname" . }}-secrets
+                  key: telegram-bot-token
+          resources:
+            {{- toYaml .Values.gateway.resources | nindent 12 }}
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 5
+{{- end }}
+
+{{- if .Values.interface.enabled }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "tele-ga.fullname" . }}-interface
+  labels:
+    {{- include "tele-ga.labels" . | nindent 4 }}
+    component: interface
+spec:
+  replicas: {{ .Values.interface.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "tele-ga.selectorLabels" . | nindent 6 }}
+      component: interface
+  template:
+    metadata:
+      labels:
+        {{- include "tele-ga.selectorLabels" . | nindent 8 }}
+        component: interface
+    spec:
+      containers:
+        - name: interface
+          image: "{{ .Values.interface.image.repository }}:{{ .Values.interface.image.tag }}"
+          imagePullPolicy: {{ .Values.interface.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 5173
+              protocol: TCP
+          env:
+            - name: VITE_API_URL
+              value: {{ .Values.interface.env.VITE_API_URL }}
+            - name: VITE_TELEGRAM_BOT_USERNAME
+              value: {{ .Values.interface.env.VITE_TELEGRAM_BOT_USERNAME }}
+          resources:
+            {{- toYaml .Values.interface.resources | nindent 12 }}
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 5
+{{- end }}
+
+{{- if .Values.studio.enabled }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "tele-ga.fullname" . }}-studio
+  labels:
+    {{- include "tele-ga.labels" . | nindent 4 }}
+    component: studio
+spec:
+  replicas: {{ .Values.studio.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "tele-ga.selectorLabels" . | nindent 6 }}
+      component: studio
+  template:
+    metadata:
+      labels:
+        {{- include "tele-ga.selectorLabels" . | nindent 8 }}
+        component: studio
+    spec:
+      containers:
+        - name: studio
+          image: "{{ .Values.studio.image.repository }}:{{ .Values.studio.image.tag }}"
+          imagePullPolicy: {{ .Values.studio.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 3000
+              protocol: TCP
+          env:
+            - name: NEXT_PUBLIC_API_URL
+              value: {{ .Values.studio.env.NEXT_PUBLIC_API_URL }}
+            - name: NEXT_PUBLIC_TELEGRAM_BOT_USERNAME
+              value: {{ .Values.studio.env.NEXT_PUBLIC_TELEGRAM_BOT_USERNAME }}
+          resources:
+            {{- toYaml .Values.studio.resources | nindent 12 }}
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 5
+{{- end }}
+
+{{- if .Values.telegramService.enabled }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "tele-ga.fullname" . }}-telegram-service
+  labels:
+    {{- include "tele-ga.labels" . | nindent 4 }}
+    component: telegram-service
+spec:
+  replicas: {{ .Values.telegramService.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "tele-ga.selectorLabels" . | nindent 6 }}
+      component: telegram-service
+  template:
+    metadata:
+      labels:
+        {{- include "tele-ga.selectorLabels" . | nindent 8 }}
+        component: telegram-service
+    spec:
+      containers:
+        - name: telegram-service
+          image: "{{ .Values.telegramService.image.repository }}:{{ .Values.telegramService.image.tag }}"
+          imagePullPolicy: {{ .Values.telegramService.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 3032
+              protocol: TCP
+          env:
+            - name: NODE_ENV
+              value: {{ .Values.telegramService.env.NODE_ENV }}
+            - name: PORT
+              value: {{ .Values.telegramService.env.PORT | quote }}
+            - name: DATABASE_URL
+              value: {{ .Values.telegramService.env.DATABASE_URL }}
+            - name: TELEGRAM_BOT_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "tele-ga.fullname" . }}-secrets
+                  key: telegram-bot-token
+          resources:
+            {{- toYaml .Values.telegramService.resources | nindent 12 }}
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 5
+{{- end }} 

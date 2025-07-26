@@ -1,0 +1,299 @@
+# Tele•Ga Platform Helm Chart Values
+
+# Global settings
+global:
+  environment: production
+  domain: telega.uz
+
+# Backend Gateway
+gateway:
+  enabled: true
+  replicaCount: 2
+  image:
+    repository: your-registry/tele-ga-gateway
+    tag: latest
+    pullPolicy: IfNotPresent
+  resources:
+    requests:
+      memory: "256Mi"
+      cpu: "250m"
+    limits:
+      memory: "512Mi"
+      cpu: "500m"
+  env:
+    NODE_ENV: production
+    PORT: 3030
+    DATABASE_URL: postgresql://teleuser:telepass@postgres:5432/teledb
+    REDIS_URL: redis://redis:6379
+    JWT_SECRET: your-super-secret-jwt-key
+    JWT_REFRESH_SECRET: your-super-secret-refresh-key
+    TELEGRAM_BOT_TOKEN: your-bot-token
+
+# Frontend Interface
+interface:
+  enabled: true
+  replicaCount: 2
+  image:
+    repository: your-registry/tele-ga-interface
+    tag: latest
+    pullPolicy: IfNotPresent
+  resources:
+    requests:
+      memory: "128Mi"
+      cpu: "100m"
+    limits:
+      memory: "256Mi"
+      cpu: "200m"
+  env:
+    VITE_API_URL: https://api.telega.uz
+    VITE_TELEGRAM_BOT_USERNAME: your-bot-username
+
+# Frontend Studio
+studio:
+  enabled: true
+  replicaCount: 1
+  image:
+    repository: your-registry/tele-ga-studio
+    tag: latest
+    pullPolicy: IfNotPresent
+  resources:
+    requests:
+      memory: "256Mi"
+      cpu: "200m"
+    limits:
+      memory: "512Mi"
+      cpu: "400m"
+  env:
+    NEXT_PUBLIC_API_URL: https://api.telega.uz
+    NEXT_PUBLIC_TELEGRAM_BOT_USERNAME: your-bot-username
+
+# Telegram Service
+telegramService:
+  enabled: true
+  replicaCount: 1
+  image:
+    repository: your-registry/tele-ga-telegram-service
+    tag: latest
+    pullPolicy: IfNotPresent
+  resources:
+    requests:
+      memory: "128Mi"
+      cpu: "100m"
+    limits:
+      memory: "256Mi"
+      cpu: "200m"
+  env:
+    NODE_ENV: production
+    PORT: 3032
+    TELEGRAM_BOT_TOKEN: your-bot-token
+    DATABASE_URL: postgresql://teleuser:telepass@postgres:5432/teledb
+
+# Auth Service
+authService:
+  enabled: true
+  replicaCount: 1
+  image:
+    repository: your-registry/tele-ga-auth-service
+    tag: latest
+    pullPolicy: IfNotPresent
+  resources:
+    requests:
+      memory: "128Mi"
+      cpu: "100m"
+    limits:
+      memory: "256Mi"
+      cpu: "200m"
+  env:
+    NODE_ENV: production
+    PORT: 3031
+    JWT_SECRET: your-super-secret-jwt-key
+    JWT_REFRESH_SECRET: your-super-secret-refresh-key
+    DATABASE_URL: postgresql://teleuser:telepass@postgres:5432/teledb
+
+# Payment Service
+paymentService:
+  enabled: true
+  replicaCount: 1
+  image:
+    repository: your-registry/tele-ga-payment-service
+    tag: latest
+    pullPolicy: IfNotPresent
+  resources:
+    requests:
+      memory: "128Mi"
+      cpu: "100m"
+    limits:
+      memory: "256Mi"
+      cpu: "200m"
+  env:
+    NODE_ENV: production
+    PORT: 3033
+    DATABASE_URL: postgresql://teleuser:telepass@postgres:5432/teledb
+    STRIPE_SECRET_KEY: your-stripe-secret-key
+    PAYPAL_CLIENT_ID: your-paypal-client-id
+    PAYPAL_CLIENT_SECRET: your-paypal-client-secret
+
+# Mass Mailer
+massMailer:
+  enabled: true
+  replicaCount: 1
+  image:
+    repository: your-registry/tele-ga-mass-mailer
+    tag: latest
+    pullPolicy: IfNotPresent
+  resources:
+    requests:
+      memory: "128Mi"
+      cpu: "100m"
+    limits:
+      memory: "256Mi"
+      cpu: "200m"
+  env:
+    NODE_ENV: production
+    PORT: 3034
+    DATABASE_URL: postgresql://teleuser:telepass@postgres:5432/teledb
+    REDIS_URL: redis://redis:6379
+    TELEGRAM_BOT_TOKEN: your-bot-token
+
+# Ingress configuration
+ingress:
+  enabled: true
+  className: nginx
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+  hosts:
+    - host: api.telega.uz
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+          serviceName: tele-ga-gateway
+          servicePort: 80
+    - host: shop.telega.uz
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+          serviceName: tele-ga-interface
+          servicePort: 80
+    - host: studio.telega.uz
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+          serviceName: tele-ga-studio
+          servicePort: 80
+  tls:
+    - secretName: telega-tls
+      hosts:
+        - api.telega.uz
+        - shop.telega.uz
+        - studio.telega.uz
+
+# PostgreSQL
+postgres:
+  enabled: true
+  postgresqlUsername: teleuser
+  postgresqlPassword: telepass
+  postgresqlDatabase: teledb
+  primary:
+    persistence:
+      enabled: true
+      size: 10Gi
+      storageClass: "fast-ssd"
+  metrics:
+    enabled: true
+    serviceMonitor:
+      enabled: true
+
+# Redis
+redis:
+  enabled: true
+  auth:
+    enabled: false
+  master:
+    persistence:
+      enabled: true
+      size: 5Gi
+      storageClass: "fast-ssd"
+  replica:
+    replicaCount: 1
+    persistence:
+      enabled: true
+      size: 5Gi
+      storageClass: "fast-ssd"
+  metrics:
+    enabled: true
+    serviceMonitor:
+      enabled: true
+
+# MinIO
+minio:
+  enabled: true
+  rootUser: admin
+  rootPassword: admin123456
+  buckets:
+    - name: telega-assets
+      policy: public
+      purge: false
+  persistence:
+    enabled: true
+    size: 20Gi
+    storageClass: "fast-ssd"
+  metrics:
+    enabled: true
+    serviceMonitor:
+      enabled: true
+
+# Monitoring
+monitoring:
+  enabled: true
+  prometheus:
+    enabled: true
+    retention: 30d
+  grafana:
+    enabled: true
+    adminPassword: admin123456
+    persistence:
+      enabled: true
+      size: 5Gi
+      storageClass: "fast-ssd"
+
+# Logging
+logging:
+  enabled: true
+  elasticsearch:
+    enabled: true
+    replicas: 1
+    resources:
+      requests:
+        memory: "1Gi"
+        cpu: "500m"
+      limits:
+        memory: "2Gi"
+        cpu: "1000m"
+    persistence:
+      enabled: true
+      size: 10Gi
+      storageClass: "fast-ssd"
+  kibana:
+    enabled: true
+    resources:
+      requests:
+        memory: "256Mi"
+        cpu: "100m"
+      limits:
+        memory: "512Mi"
+        cpu: "200m"
+
+# Backup
+backup:
+  enabled: true
+  schedule: "0 2 * * *"  # Daily at 2 AM
+  retention: 30
+  storage:
+    type: s3
+    bucket: telega-backups
+    region: us-east-1
+    accessKey: your-access-key
+    secretKey: your-secret-key 

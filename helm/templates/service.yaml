@@ -1,0 +1,146 @@
+{{- if .Values.gateway.enabled }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "tele-ga.fullname" . }}-gateway
+  labels:
+    {{- include "tele-ga.labels" . | nindent 4 }}
+    component: gateway
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    {{- include "tele-ga.selectorLabels" . | nindent 4 }}
+    component: gateway
+{{- end }}
+
+{{- if .Values.interface.enabled }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "tele-ga.fullname" . }}-interface
+  labels:
+    {{- include "tele-ga.labels" . | nindent 4 }}
+    component: interface
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    {{- include "tele-ga.selectorLabels" . | nindent 4 }}
+    component: interface
+{{- end }}
+
+{{- if .Values.studio.enabled }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "tele-ga.fullname" . }}-studio
+  labels:
+    {{- include "tele-ga.labels" . | nindent 4 }}
+    component: studio
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    {{- include "tele-ga.selectorLabels" . | nindent 4 }}
+    component: studio
+{{- end }}
+
+{{- if .Values.telegramService.enabled }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "tele-ga.fullname" . }}-telegram-service
+  labels:
+    {{- include "tele-ga.labels" . | nindent 4 }}
+    component: telegram-service
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    {{- include "tele-ga.selectorLabels" . | nindent 4 }}
+    component: telegram-service
+{{- end }}
+
+{{- if .Values.authService.enabled }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "tele-ga.fullname" . }}-auth-service
+  labels:
+    {{- include "tele-ga.labels" . | nindent 4 }}
+    component: auth-service
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    {{- include "tele-ga.selectorLabels" . | nindent 4 }}
+    component: auth-service
+{{- end }}
+
+{{- if .Values.paymentService.enabled }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "tele-ga.fullname" . }}-payment-service
+  labels:
+    {{- include "tele-ga.labels" . | nindent 4 }}
+    component: payment-service
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    {{- include "tele-ga.selectorLabels" . | nindent 4 }}
+    component: payment-service
+{{- end }}
+
+{{- if .Values.massMailer.enabled }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "tele-ga.fullname" . }}-mass-mailer
+  labels:
+    {{- include "tele-ga.labels" . | nindent 4 }}
+    component: mass-mailer
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    {{- include "tele-ga.selectorLabels" . | nindent 4 }}
+    component: mass-mailer
+{{- end }} 

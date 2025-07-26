@@ -1,0 +1,17 @@
+apiVersion: v2
+name: tele-ga
+version: 0.1.0
+description: Tele•Ga E-commerce platform
+appVersion: "1.0"
+keywords:
+  - telegram
+  - ecommerce
+  - bot
+  - marketplace
+home: https://github.com/your-username/telega-platform-1
+sources:
+  - https://github.com/your-username/telega-platform-1
+maintainers:
+  - name: Tele•Ga Team
+    email: team@telega.uz
+icon: https://telega.uz/logo.png 
