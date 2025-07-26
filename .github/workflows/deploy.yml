@@ -178,7 +178,7 @@ jobs:
           -H "Content-Type: application/json" \
           -d '{
             "chat_id": "${{ secrets.TELEGRAM_DEPLOY_CHAT_ID }}",
-            "text": "✅ *Успешный деплой!*\nКоммит: `${{ github.sha }}`\nАвтор: `${{ github.actor }}`\n[🔗 GitHub Actions](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})",
+            "text": "✅ *Успешный деплой!*\nКоммит: `${{ github.sha }}`\nАвтор: `${{ github.actor }}`\n[🔗 Перейти к логам](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})",
             "parse_mode": "Markdown"
           }'
 
@@ -189,6 +189,6 @@ jobs:
           -H "Content-Type: application/json" \
           -d '{
             "chat_id": "${{ secrets.TELEGRAM_DEPLOY_CHAT_ID }}",
-            "text": "❌ *Ошибка деплоя!*\nКоммит: `${{ github.sha }}`\nАвтор: `${{ github.actor }}`\n[🔗 Логи GitHub Actions](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})",
+            "text": "❌ *Ошибка деплоя!*\nКоммит: `${{ github.sha }}`\nАвтор: `${{ github.actor }}`\n[🔗 Смотреть ошибки](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})",
             "parse_mode": "Markdown"
           }' 
