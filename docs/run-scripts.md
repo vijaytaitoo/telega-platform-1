@@ -1,258 +1,454 @@
-# 🚀 Команды запуска проекта Tele•Ga
+# 🚀 Инструкции по запуску Tele•Ga
 
-## 📦 Установка зависимостей
+## 📋 Предварительные требования
 
+### Системные требования
+- **Node.js** 18+ 
+- **pnpm** 8+
+- **PostgreSQL** 14+
+- **Redis** 6+
+- **Git** 2.30+
+
+### Установка зависимостей
 ```bash
-# Установка всех зависимостей монорепы
+# Установка pnpm (если не установлен)
+npm install -g pnpm
+
+# Клонирование репозитория
+git clone https://github.com/your-username/telega-platform-1.git
+cd telega-platform-1
+
+# Установка всех зависимостей
 pnpm install
-
-# Очистка и переустановка (если проблемы)
-pnpm run clean && pnpm install
-
-# Обновление зависимостей
-pnpm update
-
-# Очистка кэша
-pnpm store prune
 ```
 
-## 🔧 Основные команды монорепы
+---
 
+## 🔧 Настройка окружения
+
+### 1. Генерация .env файлов
 ```bash
-# Запуск всех пакетов в режиме разработки
+# Автоматическая генерация всех .env файлов
+pnpm run apply
+
+# Или вручную:
+node scripts/create-env-files.js
+```
+
+### 2. Настройка базы данных
+```bash
+# Создание базы данных PostgreSQL
+createdb telega
+
+# Запуск миграций
+pnpm run db:mig
+
+# Проверка подключения
+psql -h localhost -U telega_user -d telega -c "SELECT version();"
+```
+
+### 3. Настройка Redis
+```bash
+# Запуск Redis (macOS)
+brew services start redis
+
+# Или через Docker
+docker run -d --name redis -p 6379:6379 redis:alpine
+```
+
+---
+
+## 🚀 Команды запуска
+
+### Полный запуск (все сервисы)
+```bash
+# Запуск всей платформы
 pnpm run dev
 
-# Сборка всех пакетов
-pnpm run build
-
-# Линтинг всех пакетов
-pnpm run lint
-
-# Тестирование всех пакетов
-pnpm run test
-
-# Форматирование кода
-pnpm run prettier
-
-# Очистка мусора
-pnpm run clean
+# Или по отдельности:
+pnpm run start:dev    # Backend Gateway
+pnpm run start:prod   # Продакшен режим
 ```
 
-## 🎯 Запуск отдельных компонентов
+### Отдельные сервисы
 
-### Frontend приложения
-
+#### Backend Gateway (порт 3030)
 ```bash
-# Tele•Ga Interface (Vite + React)
-pnpm --filter telega-interface run dev
-# Запускается на http://localhost:5173
-
-# Tele•Ga Studio (Next.js)
-pnpm --filter telega-studio run dev
-# Запускается на http://localhost:3000
-
-# Отдельный Frontend
-cd frontend && pnpm run dev
-# Запускается на http://localhost:5173
-```
-
-### Backend сервисы
-
-```bash
-# API Gateway (NestJS)
+# Разработка
 pnpm --filter @telega/gateway run start:dev
-# Запускается на http://localhost:3030
 
-# Auth Service
-pnpm --filter @telega/auth-service run start:dev
-# Запускается на http://localhost:3001
+# Продакшен
+pnpm --filter @telega/gateway run start:prod
 
-# Payment Service
-pnpm --filter @telega/payment-service run start:dev
-# Запускается на http://localhost:3002
+# Отладка
+pnpm --filter @telega/gateway run start:debug
+```
 
-# Telegram Service
+#### Frontend Interface (порт 5173)
+```bash
+# Разработка
+pnpm --filter telega-interface run dev
+
+# Сборка
+pnpm --filter telega-interface run build
+
+# Предпросмотр сборки
+pnpm --filter telega-interface run preview
+```
+
+#### Frontend Studio (порт 3000)
+```bash
+# Разработка
+pnpm --filter telega-studio run dev
+
+# Сборка
+pnpm --filter telega-studio run build
+
+# Продакшен
+pnpm --filter telega-studio run start
+```
+
+#### Telegram Service (порт 3032)
+```bash
+# Разработка
 pnpm --filter @telega/telegram-service run start:dev
-# Запускается на http://localhost:3003
+
+# Продакшен
+pnpm --filter @telega/telegram-service run start:prod
 ```
 
-### Дополнительные сервисы
-
+#### Auth Service (порт 3031)
 ```bash
-# Mass Mailer
+# Разработка
+pnpm --filter @telega/auth-service run start:dev
+
+# Продакшен
+pnpm --filter @telega/auth-service run start:prod
+```
+
+#### Payment Service (порт 3033)
+```bash
+# Разработка
+pnpm --filter @telega/payment-service run start:dev
+
+# Продакшен
+pnpm --filter @telega/payment-service run start:prod
+```
+
+#### Mass Mailer
+```bash
+# Разработка
 pnpm --filter mass-mailer run dev
-# Запускается на http://localhost:3004
 
-# Status Bot
-cd apps/bots/status-bot && pnpm run dev
-# Запускается на http://localhost:3333
+# Продакшен
+pnpm --filter mass-mailer run start
 ```
 
-## 🐳 Docker команды
+---
 
+## 🐳 Docker запуск
+
+### Локальная разработка
 ```bash
-# Сборка всех образов
+# Сборка образов
 docker compose build
 
-# Запуск в режиме разработки
+# Запуск всех сервисов
 docker compose up -d
-
-# Запуск продакшена
-docker compose -f docker-compose.prod.yml up -d
 
 # Просмотр логов
 docker compose logs -f
 
-# Остановка всех сервисов
+# Остановка
 docker compose down
 ```
 
-## 🔍 Отладка и мониторинг
-
+### Продакшен
 ```bash
-# Проверка статуса процессов
-ps aux | grep node
+# Сборка и запуск в продакшен режиме
+docker compose -f docker-compose.prod.yml up -d --build
 
-# Проверка занятых портов
-lsof -i :3000
-lsof -i :5173
-lsof -i :3030
+# Просмотр статуса
+docker compose -f docker-compose.prod.yml ps
 
-# Просмотр логов конкретного сервиса
-docker compose logs gateway
-docker compose logs studio
+# Обновление сервисов
+docker compose -f docker-compose.prod.yml up -d --build gateway
 ```
 
-## 🧪 Тестирование API
+---
 
+## 🔍 Проверка работоспособности
+
+### Health Checks
 ```bash
-# Тест промо API
-curl -X POST http://localhost:3030/api/v1/promo \
-  -H "Content-Type: application/json" \
-  -d '{"code":"SUMMER25","discount":25,"type":"percentage","currency":"KGS"}'
+# Backend Gateway
+curl http://localhost:3030/health
 
-# Тест аналитики
-curl http://localhost:3030/api/v1/grok/analytics?storeId=test-store-id
+# Frontend Interface
+curl http://localhost:5173
 
-# Тест статистики Telegram
-curl http://localhost:3030/api/v1/tgstat/channel?channelId=test-channel-id
+# Frontend Studio
+curl http://localhost:3000
+
+# Telegram Service
+curl http://localhost:3032/health
 ```
 
-## 🔧 Утилиты
-
+### Проверка API
 ```bash
-# Генерация .env файлов
-node scripts/create-env-files.js
+# Swagger документация
+open http://localhost:3030/api
 
-# Очистка кэша
-pnpm store prune
-
-# Обновление зависимостей
-pnpm update
-
-# Проверка устаревших пакетов
-pnpm outdated
+# Тестовый запрос
+curl -X GET http://localhost:3030/api/shops
 ```
 
-## 🚨 Решение проблем
-
-### Проблемы с портами
-
+### Проверка базы данных
 ```bash
-# Убить процесс на порту
-lsof -ti:3000 | xargs kill -9
+# Подключение к PostgreSQL
+psql -h localhost -U telega_user -d telega
 
-# Изменить порт в .env
-PORT=3001
+# Проверка таблиц
+\dt
+
+# Проверка данных
+SELECT * FROM users LIMIT 5;
 ```
 
-### Проблемы с зависимостями
+---
 
+## 🛠️ Утилиты
+
+### Очистка проекта
 ```bash
 # Очистка node_modules
 pnpm run clean:node_modules
 
-# Переустановка зависимостей
+# Очистка кеша
+pnpm run clean:cache
+
+# Полная очистка
+pnpm run clean
+```
+
+### Линтинг и форматирование
+```bash
+# Проверка кода
+pnpm run lint
+
+# Автоисправление
+pnpm run lint:fix
+
+# Форматирование
+pnpm run prettier
+
+# Проверка типов
+pnpm run type-check
+```
+
+### Тестирование
+```bash
+# Unit тесты
+pnpm run test
+
+# Тесты с покрытием
+pnpm run test:cov
+
+# E2E тесты
+pnpm run test:e2e
+
+# Тесты в watch режиме
+pnpm run test:watch
+```
+
+---
+
+## 📊 Мониторинг
+
+### Логи в реальном времени
+```bash
+# Backend Gateway
+pnpm --filter @telega/gateway run start:dev | pino-pretty
+
+# Telegram Service
+pnpm --filter @telega/telegram-service run start:dev | pino-pretty
+
+# Все сервисы
+pnpm run dev | pino-pretty
+```
+
+### Метрики
+```bash
+# Prometheus метрики
+curl http://localhost:3030/metrics
+
+# Health check всех сервисов
+curl http://localhost:3030/health
+```
+
+---
+
+## 🚨 Troubleshooting
+
+### Частые проблемы
+
+#### Проблема: NestJS не может подключиться к БД
+```bash
+# Решение: проверить DATABASE_URL
+echo $DATABASE_URL
+# Должно быть: postgresql://user:password@localhost:5432/telega
+
+# Проверить PostgreSQL
+brew services list | grep postgresql
+# Или
+docker ps | grep postgres
+```
+
+#### Проблема: Redis не доступен
+```bash
+# Решение: запустить Redis
+brew services start redis
+# Или
+docker run -d --name redis -p 6379:6379 redis:alpine
+
+# Проверить подключение
+redis-cli ping
+```
+
+#### Проблема: Порт занят
+```bash
+# Найти процесс на порту
+lsof -i :3030
+lsof -i :5173
+lsof -i :3000
+
+# Убить процесс
+kill -9 <PID>
+```
+
+#### Проблема: Зависимости не установлены
+```bash
+# Очистить кеш pnpm
+pnpm store prune
+
+# Переустановить зависимости
 rm -rf node_modules pnpm-lock.yaml
 pnpm install
 ```
 
-### Проблемы с Docker
-
+#### Проблема: TypeScript ошибки
 ```bash
-# Пересборка образов
-docker compose build --no-cache
+# Очистить кеш TypeScript
+rm -rf dist
+rm -rf .turbo
 
-# Очистка Docker
-docker system prune -a
+# Пересобрать проект
+pnpm run build
 ```
 
-### Проблемы с NestJS версиями
+---
 
+## 🔄 Обновление проекта
+
+### Обновление зависимостей
 ```bash
-# Обновление NestJS до совместимых версий
-pnpm add -w @nestjs/core@11.1.5 @nestjs/common@11.1.5 @nestjs/platform-express@11.1.5
+# Проверить устаревшие пакеты
+pnpm outdated
 
-# Обновление TypeORM
-pnpm add @nestjs/typeorm@11.0.0 --filter @telega/gateway
-pnpm add @nestjs/typeorm@11.0.0 --filter @telega/database
+# Обновить все зависимости
+pnpm up --latest
 
-# Очистка и переустановка
-rm -rf node_modules pnpm-lock.yaml
-pnpm install
+# Обновить конкретный пакет
+pnpm up @nestjs/core --latest
 ```
 
-## 📋 Чеклист запуска
-
-- [ ] Установлены все зависимости (`pnpm install`)
-- [ ] Созданы .env файлы для всех сервисов
-- [ ] Запущен Gateway (`pnpm --filter @telega/gateway run start:dev`)
-- [ ] Запущен Interface (`pnpm --filter telega-interface run dev`)
-- [ ] Запущен Studio (`pnpm --filter telega-studio run dev`)
-- [ ] Проверены API endpoints
-- [ ] Проверена работа Telegram ботов
-
-## 🎯 Быстрый старт
-
+### Обновление кода
 ```bash
-# 1. Установка
+# Получить последние изменения
+git pull origin main
+
+# Установить новые зависимости
 pnpm install
 
-# 2. Генерация .env файлов
-node scripts/create-env-files.js
-
-# 3. Запуск основных сервисов
+# Перезапустить сервисы
 pnpm run dev
-
-# 4. Проверка
-curl http://localhost:3030/api/v1/promo
 ```
+
+---
+
+## 📱 Telegram интеграция
+
+### Настройка бота
+```bash
+# Создать бота через @BotFather
+# Получить токен и добавить в .env
+
+# Проверить webhook
+curl -X POST https://api.telegram.org/bot<TOKEN>/setWebhook \
+  -H "Content-Type: application/json" \
+  -d '{"url": "https://your-domain.com/webhook"}'
+```
+
+### Тестирование бота
+```bash
+# Отправить тестовое сообщение
+curl -X POST https://api.telegram.org/bot<TOKEN>/sendMessage \
+  -H "Content-Type: application/json" \
+  -d '{"chat_id": <CHAT_ID>, "text": "Test message"}'
+```
+
+---
+
+## 🎯 Продакшен чеклист
+
+Перед деплоем в продакшен убедитесь:
+
+- [ ] Все .env файлы настроены
+- [ ] База данных создана и миграции запущены
+- [ ] Redis запущен и доступен
+- [ ] Все сервисы собираются без ошибок
+- [ ] Тесты проходят успешно
+- [ ] Линтинг не показывает ошибок
+- [ ] SSL сертификаты настроены
+- [ ] Домены настроены и указывают на сервер
+- [ ] Бэкапы настроены
+- [ ] Мониторинг активен
+
+---
 
 ## 📞 Поддержка
 
-При возникновении проблем:
+### Полезные команды
+```bash
+# Статус всех сервисов
+pnpm run status
 
-1. Проверьте логи: `docker compose logs`
-2. Проверьте порты: `lsof -i -P | grep LISTEN`
-3. Проверьте зависимости: `pnpm outdated`
-4. Очистите кэш: `pnpm store prune`
+# Логи всех сервисов
+pnpm run logs
 
-## 🔧 Совместимые версии
+# Перезапуск всех сервисов
+pnpm run restart
 
-### NestJS экосистема
-- `@nestjs/core`: 11.1.5
-- `@nestjs/common`: 11.1.5
-- `@nestjs/platform-express`: 11.1.5
-- `@nestjs/typeorm`: 11.0.0
-- `@nestjs/swagger`: 7.4.2
-- `@nestjs/config`: 3.3.0
+# Остановка всех сервисов
+pnpm run stop
+```
 
-### Frontend
-- `react`: 18.x
-- `vite`: 5.x
-- `next`: 14.x
+### Контакты
+- **Telegram Support**: @TeleGaSupportBot
+- **Community Chat**: @Tele_GaCommunity
+- **GitHub Issues**: https://github.com/your-username/telega-platform-1/issues
 
-### Backend
-- `typeorm`: 0.3.25
-- `pg`: 8.11.3
-- `telegraf`: 4.16.3 
+---
+
+## 🎉 Готово!
+
+После выполнения всех шагов у вас должна быть полностью рабочая платформа Tele•Ga:
+
+- ✅ Backend Gateway на порту 3030
+- ✅ Frontend Interface на порту 5173  
+- ✅ Frontend Studio на порту 3000
+- ✅ Telegram боты работают
+- ✅ База данных подключена
+- ✅ Redis кеширование активно
+
+**Добро пожаловать в мир Telegram e-commerce! 🚀** 
