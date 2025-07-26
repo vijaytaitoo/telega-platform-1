@@ -1,4 +1,5 @@
 import {
+import React from 'react';
   Box,
   Container,
   SimpleGrid,
@@ -12,7 +13,7 @@ import {
   Select,
   Textarea,
   Divider,
-  useColorModeValue
+  useColorModeValue,
 } from '@chakra-ui/react';
 import { FiCreditCard, FiTruck } from 'react-icons/fi';
 
@@ -30,13 +31,7 @@ export const CheckoutPage = () => {
           </Text>
 
           {/* Контактные данные */}
-          <Box
-            bg={bgColor}
-            p={6}
-            borderRadius="xl"
-            borderWidth="1px"
-            borderColor={borderColor}
-          >
+          <Box bg={bgColor} p={6} borderRadius="xl" borderWidth="1px" borderColor={borderColor}>
             <VStack spacing={4} align="stretch">
               <Text fontSize="lg" fontWeight="semibold">
                 Контактные данные
@@ -59,13 +54,7 @@ export const CheckoutPage = () => {
           </Box>
 
           {/* Доставка */}
-          <Box
-            bg={bgColor}
-            p={6}
-            borderRadius="xl"
-            borderWidth="1px"
-            borderColor={borderColor}
-          >
+          <Box bg={bgColor} p={6} borderRadius="xl" borderWidth="1px" borderColor={borderColor}>
             <VStack spacing={4} align="stretch">
               <Text fontSize="lg" fontWeight="semibold">
                 Доставка
@@ -86,13 +75,7 @@ export const CheckoutPage = () => {
           </Box>
 
           {/* Оплата */}
-          <Box
-            bg={bgColor}
-            p={6}
-            borderRadius="xl"
-            borderWidth="1px"
-            borderColor={borderColor}
-          >
+          <Box bg={bgColor} p={6} borderRadius="xl" borderWidth="1px" borderColor={borderColor}>
             <VStack spacing={4} align="stretch">
               <Text fontSize="lg" fontWeight="semibold">
                 Способ оплаты
@@ -111,12 +94,7 @@ export const CheckoutPage = () => {
                     <Text>Банковской картой</Text>
                   </VStack>
                 </Button>
-                <Button
-                  h="auto"
-                  p={4}
-                  variant="outline"
-                  _hover={{ bg: 'gray.50' }}
-                >
+                <Button h="auto" p={4} variant="outline" _hover={{ bg: 'gray.50' }}>
                   <VStack spacing={2}>
                     <FiTruck size={24} />
                     <Text>При получении</Text>

@@ -19,12 +19,15 @@ export class BazuPaymentService implements IPaymentProvider {
     const apiKey = this.configService.get<string>('BAZU_API_KEY');
     if (!apiKey) throw new Error('BAZU_API_KEY is not defined');
     this.apiKey = apiKey;
-    this.apiUrl = this.configService.get<string>('BAZU_API_URL', 'https://api.bazucompany.com/v1');
+    this.apiUrl = this.configService.get<string>(
+      'BAZU_API_URL',
+      'https://api.bazucompany.com/v1',
+    );
   }
 
   private get headers() {
     return {
-      'Authorization': `Bearer ${this.apiKey}`,
+      Authorization: `Bearer ${this.apiKey}`,
       'Content-Type': 'application/json',
     };
   }
@@ -86,10 +89,9 @@ export class BazuPaymentService implements IPaymentProvider {
 
   async getPaymentStatus(paymentId: string): Promise<PaymentStatus> {
     try {
-      const response = await axios.get(
-        `${this.apiUrl}/payments/${paymentId}`,
-        { headers: this.headers },
-      );
+      const response = await axios.get(`${this.apiUrl}/payments/${paymentId}`, {
+        headers: this.headers,
+      });
       return this.mapBazuStatus(response.data.status);
     } catch (error) {
       return PaymentStatus.FAILED;
@@ -131,11 +133,11 @@ export class BazuPaymentService implements IPaymentProvider {
 
   private mapBazuStatus(bazuStatus: string): PaymentStatus {
     const statusMap = {
-      'created': PaymentStatus.PENDING,
-      'processing': PaymentStatus.PROCESSING,
-      'succeeded': PaymentStatus.COMPLETED,
-      'failed': PaymentStatus.FAILED,
-      'refunded': PaymentStatus.REFUNDED,
+      created: PaymentStatus.PENDING,
+      processing: PaymentStatus.PROCESSING,
+      succeeded: PaymentStatus.COMPLETED,
+      failed: PaymentStatus.FAILED,
+      refunded: PaymentStatus.REFUNDED,
     };
     return statusMap[bazuStatus] || PaymentStatus.FAILED;
   }

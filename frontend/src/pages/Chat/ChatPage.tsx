@@ -1,4 +1,5 @@
 import {
+import React from 'react';
   Box,
   Container,
   VStack,
@@ -6,7 +7,7 @@ import {
   Input,
   IconButton,
   useColorModeValue,
-  Divider
+  Divider,
 } from '@chakra-ui/react';
 import { FiSend, FiPaperclip } from 'react-icons/fi';
 import { ChatMessage } from '../../components/Chat/ChatMessage';
@@ -35,14 +36,14 @@ export const ChatPage = () => {
         id: '1',
         title: 'Стильная футболка с градиентным принтом',
         price: 2999,
-        image: '/product-1.jpg'
-      }
+        image: '/product-1.jpg',
+      },
     },
     {
       message: 'Отличный выбор! Этот товар есть в наличии. Хотите оформить заказ?',
       isOwn: false,
       timestamp: '12:33',
-    }
+    },
   ];
 
   return (
@@ -79,13 +80,7 @@ export const ChatPage = () => {
           <Divider />
 
           {/* Поле ввода */}
-          <Box
-            w="full"
-            p={4}
-            bg={inputBgColor}
-            borderTop="1px"
-            borderColor="gray.100"
-          >
+          <Box w="full" p={4} bg={inputBgColor} borderTop="1px" borderColor="gray.100">
             <HStack spacing={2}>
               <IconButton
                 aria-label="Прикрепить файл"
@@ -100,7 +95,7 @@ export const ChatPage = () => {
                 borderRadius="full"
                 _focus={{
                   borderColor: 'brand.solid.blue.start',
-                  boxShadow: 'none'
+                  boxShadow: 'none',
                 }}
               />
               <IconButton
@@ -111,7 +106,7 @@ export const ChatPage = () => {
                 isRound
                 _hover={{
                   transform: 'translateY(-1px)',
-                  shadow: 'md'
+                  shadow: 'md',
                 }}
               />
             </HStack>

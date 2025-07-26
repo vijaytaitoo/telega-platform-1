@@ -10,7 +10,13 @@ export interface Order {
   userId: number;
   items: OrderItem[];
   total: number;
-  status: 'pending' | 'confirmed' | 'processing' | 'shipped' | 'delivered' | 'cancelled';
+  status:
+    | 'pending'
+    | 'confirmed'
+    | 'processing'
+    | 'shipped'
+    | 'delivered'
+    | 'cancelled';
   shippingAddress?: string;
   createdAt: Date;
   updatedAt: Date;
@@ -23,7 +29,7 @@ export class OrderService {
 
   constructor(
     private readonly botService: BotService,
-    private readonly cartService: CartService
+    private readonly cartService: CartService,
   ) {}
 
   private generateOrderId(): string {
@@ -47,7 +53,7 @@ export class OrderService {
       status: 'pending',
       shippingAddress,
       createdAt: new Date(),
-      updatedAt: new Date()
+      updatedAt: new Date(),
     };
 
     this.orders.set(orderId, order);
@@ -66,7 +72,7 @@ export class OrderService {
   async getUserOrders(userId: number): Promise<Order[]> {
     const orderIds = this.userOrders.get(userId) || [];
     return orderIds
-      .map(id => this.orders.get(id))
+      .map((id) => this.orders.get(id))
       .filter((order): order is Order => order !== undefined);
   }
 
@@ -88,9 +94,14 @@ export class OrderService {
     return order;
   }
 
-  private async sendOrderNotification(order: Order): Promise<Message.TextMessage> {
+  private async sendOrderNotification(
+    order: Order,
+  ): Promise<Message.TextMessage> {
     const itemsList = order.items
-      .map(item => `${item.title}\nx${item.quantity} = ${item.price * item.quantity} ₽`)
+      .map(
+        (item) =>
+          `${item.title}\nx${item.quantity} = ${item.price * item.quantity} ₽`,
+      )
       .join('\n');
 
     const text = `
@@ -106,20 +117,27 @@ ${itemsList}
 
     const keyboard = {
       inline_keyboard: [
-        [{ 
-          text: '📋 Детали заказа', 
-          callback_data: JSON.stringify({ action: 'order_details', orderId: order.id })
-        }]
-      ]
+        [
+          {
+            text: '📋 Детали заказа',
+            callback_data: JSON.stringify({
+              action: 'order_details',
+              orderId: order.id,
+            }),
+          },
+        ],
+      ],
     };
 
     return this.botService.sendMessage(order.userId, text, {
       reply_markup: keyboard,
-      parse_mode: 'HTML'
+      parse_mode: 'HTML',
     });
   }
 
-  private async sendOrderStatusUpdate(order: Order): Promise<Message.TextMessage> {
+  private async sendOrderStatusUpdate(
+    order: Order,
+  ): Promise<Message.TextMessage> {
     const text = `
 📦 Статус заказа #${order.id} обновлен!
 
@@ -128,16 +146,21 @@ ${this.getStatusEmoji(order.status)} Новый статус: ${order.status}
 
     const keyboard = {
       inline_keyboard: [
-        [{ 
-          text: '📋 Детали заказа', 
-          callback_data: JSON.stringify({ action: 'order_details', orderId: order.id })
-        }]
-      ]
+        [
+          {
+            text: '📋 Детали заказа',
+            callback_data: JSON.stringify({
+              action: 'order_details',
+              orderId: order.id,
+            }),
+          },
+        ],
+      ],
     };
 
     return this.botService.sendMessage(order.userId, text, {
       reply_markup: keyboard,
-      parse_mode: 'HTML'
+      parse_mode: 'HTML',
     });
   }
 
@@ -148,7 +171,7 @@ ${this.getStatusEmoji(order.status)} Новый статус: ${order.status}
       processing: '🔧',
       shipped: '🚚',
       delivered: '📦',
-      cancelled: '❌'
+      cancelled: '❌',
     };
     return statusEmojis[status] || '❓';
   }

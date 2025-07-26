@@ -1,4 +1,5 @@
 import {
+import React from 'react';
   Box,
   VStack,
   HStack,
@@ -6,7 +7,7 @@ import {
   Text,
   Button,
   Icon,
-  useColorModeValue
+  useColorModeValue,
 } from '@chakra-ui/react';
 import { FiEdit2, FiSettings, FiShoppingBag } from 'react-icons/fi';
 
@@ -25,35 +26,19 @@ export const ProfileHeader = ({
   avatar,
   ordersCount,
   onEditProfile,
-  onSettings
+  onSettings,
 }: ProfileHeaderProps) => {
   const bgGradient = useColorModeValue(
     'brand.gradient.purple',
-    'linear-gradient(135deg, #2D3748 0%, #1A202C 100%)'
+    'linear-gradient(135deg, #2D3748 0%, #1A202C 100%)',
   );
 
   return (
     <Box position="relative">
-      <Box
-        bgGradient={bgGradient}
-        h="150px"
-        borderRadius="xl"
-        mb="60px"
-      />
+      <Box bgGradient={bgGradient} h="150px" borderRadius="xl" mb="60px" />
 
-      <VStack
-        position="absolute"
-        left={0}
-        right={0}
-        bottom="-50px"
-        spacing={2}
-      >
-        <Avatar
-          size="xl"
-          name={name}
-          src={avatar}
-          border="4px solid white"
-        />
+      <VStack position="absolute" left={0} right={0} bottom="-50px" spacing={2}>
+        <Avatar size="xl" name={name} src={avatar} border="4px solid white" />
 
         <VStack spacing={1}>
           <Text fontSize="xl" fontWeight="bold" color="gray.800">
@@ -86,15 +71,7 @@ export const ProfileHeader = ({
           </Button>
         </HStack>
 
-        <HStack
-          w="full"
-          justify="center"
-          p={4}
-          bg="white"
-          borderRadius="lg"
-          shadow="sm"
-          mt={4}
-        >
+        <HStack w="full" justify="center" p={4} bg="white" borderRadius="lg" shadow="sm" mt={4}>
           <VStack spacing={0} align="center">
             <Icon as={FiShoppingBag} boxSize={6} color="brand.solid.blue.start" />
             <Text fontSize="lg" fontWeight="bold">

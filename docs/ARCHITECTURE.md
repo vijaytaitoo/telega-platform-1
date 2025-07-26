@@ -1,229 +1,156 @@
-# Архитектура системы
+# 🧩 Архитектура платформы Tele•Ga
 
-## 1. Общая структура
+---
+
+## 📐 Общая схема (FSD + microapps)
 
 ```mermaid
 graph TD
-    A[Client Layer] --> B[API Gateway]
-    B --> C[Service Layer]
-    C --> D[Data Layer]
-    
-    subgraph "Client Layer"
-        A1[Telegram Mini App]
-        A2[Web Interface]
-        A3[Mobile Apps]
-    end
-    
-    subgraph "Service Layer"
-        C1[Auth Service]
-        C2[Shop Service]
-        C3[Order Service]
-        C4[Payment Service]
-        C5[Notification Service]
-        C6[Analytics Service]
-    end
-    
-    subgraph "Data Layer"
-        D1[PostgreSQL]
-        D2[MongoDB]
-        D3[Redis]
-        D4[RabbitMQ]
-    end
+  subgraph Backend (NestJS)
+    A1(API Gateway)
+    A2(Auth App)
+    A3(Bot App)
+    A4(AI App)
+    A5(DB & Services)
+  end
+
+  subgraph Telegram
+    B1(Bots)
+    B2(Marketplace)
+  end
+
+  subgraph Frontend
+    C1(React Storefront)
+    C2(Admin Panel)
+  end
+
+  A1 --> A2
+  A1 --> A3
+  A1 --> A4
+  A5 --> A1
+  B1 --> A3
+  C1 --> A1
+  C2 --> A2
 ```
 
-## 2. Компоненты системы
+---
 
-### 2.1 API Gateway
-- Маршрутизация запросов
-- Балансировка нагрузки
-- Аутентификация и авторизация
+## 🧱 Архитектурные слои (FSD)
+
+- **features/** — бизнес-фичи (например, корзина, оплата)
+- **entities/** — сущности (пользователь, товар, заказ)
+- **shared/** — общие компоненты, хелперы, утилиты
+- **widgets/** — блоки интерфейса (поиск, превью товара)
+- **pages/** — страницы (магазин, заказ, профиль)
+
+---
+
+## 🛰️ Микросервисы
+
+| Название | Назначение |
+|----------|------------|
+| api | Общий REST API + GraphQL |
+| auth | JWT, OAuth, токены |
+| bot | Взаимодействие с Telegraf ботами |
+| ai | OpenAI + генерация описаний |
+
+---
+
+## 💾 Хранилище
+
+- **PostgreSQL** + TypeORM
+- **Redis** (сессии, очереди)
+- **MinIO** (для фото/файлов)
+
+---
+
+## 🔐 Безопасность
+
+- CORS + Helmet
+- JWT + Refresh
 - Rate limiting
-- Кэширование
+- Telegram Login auth
 
-### 2.2 Микросервисы
+---
 
-#### Auth Service (auth-service)
-- Аутентификация пользователей
-- Управление сессиями
-- Авторизация и роли
-- Интеграция с Telegram Auth
+## 🧠 AI-интеграции
 
-#### Shop Service (shop-service)
-- Управление магазинами
-- Каталог товаров
-- Шаблоны и настройки
-- Поиск и фильтрация
+- OpenAI SDK
+- Генерация описаний, названий
+- Анализ продаж
 
-#### Order Service (order-service)
-- Обработка заказов
-- Управление корзиной
-- История заказов
-- Статусы и отслеживание
+---
 
-#### Payment Service (payment-service)
-- Обработка платежей
-- Интеграция с платежными системами
-- Управление транзакциями
-- Возвраты и рефанды
-
-#### Notification Service (notification-service)
-- Push-уведомления
-- Email-рассылки
-- Telegram сообщения
-- Webhooks
-
-#### Analytics Service (analytics-service)
-- Сбор метрик
-- Генерация отчетов
-- Статистика продаж
-- Аналитика поведения
-
-## 3. Структура проекта
+## 📦 Структура проекта
 
 ```
-телега 2/
+telega-platform-1/
+├── apps/
+│   ├── telega-interface/     # Vite + React
+│   └── telega-studio/        # Next.js
 ├── backend/
-│   ├── services/
-│   │   ├── auth-service/
-│   │   ├── shop-service/
-│   │   ├── order-service/
-│   │   ├── payment-service/
-│   │   ├── notification-service/
-│   │   └── analytics-service/
-│   ├── libs/
-│   │   ├── common/
-│   │   ├── database/
-│   │   └── messaging/
-│   └── gateway/
-├── frontend/
-│   ├── web/
-│   │   ├── admin/
-│   │   └── store/
-│   └── telegram/
-├── mobile/
-│   ├── android/
-│   └── ios/
-└── shared/
-    ├── types/
-    └── utils/
+│   ├── gateway/              # NestJS API
+│   ├── services/             # Микросервисы
+│   └── libs/                 # Общие библиотеки
+├── frontend/                 # Отдельный Vite
+├── mass-mailer/              # Рассылка
+└── shared/                   # Общие типы
 ```
 
-## 4. Коммуникация между сервисами
+---
 
-### 4.1 Синхронная коммуникация (REST/GraphQL)
+## 🔧 Технологический стек
 
-```mermaid
-sequenceDiagram
-    participant C as Client
-    participant G as API Gateway
-    participant S1 as Service 1
-    participant S2 as Service 2
-    
-    C->>G: HTTP Request
-    G->>S1: Internal Request
-    S1->>S2: Service Call
-    S2-->>S1: Response
-    S1-->>G: Response
-    G-->>C: HTTP Response
+### Backend
+- **NestJS 11** - основной фреймворк
+- **TypeORM 3** - ORM для PostgreSQL
+- **Telegraf.js** - Telegram Bot API
+- **JWT** - аутентификация
+- **Redis** - кеширование и сессии
+
+### Frontend
+- **React 18** - UI библиотека
+- **Vite** - сборщик
+- **TailwindCSS** - стили
+- **TypeScript** - типизация
+
+### DevOps
+- **Docker** - контейнеризация
+- **PM2** - процесс-менеджер
+- **nginx** - reverse proxy
+- **GitHub Actions** - CI/CD
+
+---
+
+## 🚀 Деплой
+
+### Локальная разработка
+```bash
+pnpm install
+pnpm run apply
+pnpm run dev
 ```
 
-### 4.2 Асинхронная коммуникация (Events)
-
-```mermaid
-sequenceDiagram
-    participant S1 as Service 1
-    participant Q as RabbitMQ
-    participant S2 as Service 2
-    participant S3 as Service 3
-    
-    S1->>Q: Publish Event
-    Q->>S2: Consume Event
-    Q->>S3: Consume Event
-    S2-->>S1: Acknowledge
-    S3-->>S1: Acknowledge
+### Продакшен
+```bash
+docker compose -f docker-compose.prod.yml up -d
 ```
 
-## 5. Технологический стек
+---
 
-### 5.1 Backend
-- **Framework**: NestJS
-- **Runtime**: Node.js
-- **API**: REST + GraphQL
-- **Message Broker**: RabbitMQ
-- **Caching**: Redis
-- **Databases**:
-  - PostgreSQL (основная)
-  - MongoDB (аналитика)
+## 📊 Мониторинг
 
-### 5.2 Frontend
-- **Framework**: Next.js
-- **State Management**: Redux Toolkit
-- **UI**: Material-UI + Telegram Components
-- **API Client**: Axios + React Query
+- **Логи**: Winston + ELK Stack
+- **Метрики**: Prometheus + Grafana
+- **Трейсинг**: Jaeger
+- **Алерты**: Telegram Bot
 
-### 5.3 DevOps
-- **Containerization**: Docker
-- **Orchestration**: Kubernetes
-- **CI/CD**: GitHub Actions
-- **Monitoring**: Prometheus + Grafana
+---
 
-## 6. Безопасность
+## 🔄 CI/CD Pipeline
 
-### 6.1 Аутентификация
-- JWT токены
-- Telegram Auth
-- OAuth 2.0
-- Refresh tokens
-
-### 6.2 Авторизация
-- RBAC (Role-Based Access Control)
-- Middleware для проверки прав
-- Аудит действий
-- Rate limiting
-
-### 6.3 Данные
-- Шифрование данных
-- Защита от SQL-инъекций
-- XSS защита
-- CSRF токены
-
-## 7. Масштабирование
-
-### 7.1 Горизонтальное масштабирование
-- Kubernetes автоскейлинг
-- Репликация баз данных
-- Распределенное кэширование
-- Load balancing
-
-### 7.2 Вертикальное масштабирование
-- Оптимизация запросов
-- Кэширование
-- Индексирование
-- Профилирование
-
-## 8. Мониторинг
-
-### 8.1 Метрики
-- Latency
-- Error rates
-- Throughput
-- Resource usage
-
-### 8.2 Логирование
-- Централизованные логи
-- Трейсинг запросов
-- Алертинг
-- Дашборды
-
-## 9. Развертывание
-
-### 9.1 Окружения
-- Development
-- Staging
-- Production
-
-### 9.2 CI/CD
-- Автоматическое тестирование
-- Линтинг и форматирование
-- Сборка и деплой
-- Откат изменений 
+1. **GitHub Actions** - автоматическая сборка
+2. **Docker Hub** - публикация образов
+3. **VPS** - деплой через SSH
+4. **nginx** - проксирование запросов
+5. **SSL** - Let's Encrypt сертификаты

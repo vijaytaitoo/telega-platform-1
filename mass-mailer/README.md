@@ -3,6 +3,7 @@
 Массовые рассылки по Telegram для магазинов (NestJS, Prisma, BullMQ, Telegraf)
 
 ## Стек
+
 - NestJS
 - Prisma + PostgreSQL
 - BullMQ + Redis
@@ -30,7 +31,8 @@
 ---
 
 ## TODO
+
 - [ ] API для создания рассылок
 - [ ] Очередь и воркер для отправки сообщений
 - [ ] Интеграция с Telegraf
-- [ ] UI (отдельно) 
+- [ ] UI (отдельно)

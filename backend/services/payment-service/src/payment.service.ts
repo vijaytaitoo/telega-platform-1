@@ -83,8 +83,12 @@ export class PaymentService {
       throw new NotFoundException('Payment not found');
     }
 
-    const paymentProvider = this.getProvider(payment.provider as PaymentProvider);
-    const status = await paymentProvider.getPaymentStatus(payment.providerPaymentId);
+    const paymentProvider = this.getProvider(
+      payment.provider as PaymentProvider,
+    );
+    const status = await paymentProvider.getPaymentStatus(
+      payment.providerPaymentId,
+    );
 
     if (status !== payment.status) {
       payment.status = status;
@@ -104,8 +108,12 @@ export class PaymentService {
       throw new NotFoundException('Payment not found');
     }
 
-    const paymentProvider = this.getProvider(payment.provider as PaymentProvider);
-    const result = await paymentProvider.refundPayment(payment.providerPaymentId);
+    const paymentProvider = this.getProvider(
+      payment.provider as PaymentProvider,
+    );
+    const result = await paymentProvider.refundPayment(
+      payment.providerPaymentId,
+    );
 
     payment.status = result.status;
     payment.error = result.error;
@@ -132,4 +140,4 @@ export class PaymentService {
       order: { createdAt: 'DESC' },
     });
   }
-} 
+}

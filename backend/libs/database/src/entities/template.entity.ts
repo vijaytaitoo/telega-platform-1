@@ -23,4 +23,4 @@ export class Template extends BaseEntity {
 
   @Column({ default: 'active' })
   status: string;
-} 
+}

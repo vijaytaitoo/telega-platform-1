@@ -1,4 +1,5 @@
 import { Box, Flex, Icon, Text } from '@chakra-ui/react';
+import React from 'react';
 import { FiHome, FiSearch, FiMessageSquare, FiShoppingCart, FiUser } from 'react-icons/fi';
 import { Link, useLocation } from 'react-router-dom';
 

@@ -1,4 +1,8 @@
 packages:
-  - 'backend/**'
-  - 'frontend/**'
-  - 'shared/**'
+  - 'apps/*'
+  - 'frontend/*'
+  - 'backend/gateway'
+  - 'backend/libs/*'
+  - 'backend/services/*'
+  - 'shared/*'
+  - 'mass-mailer'

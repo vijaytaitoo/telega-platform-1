@@ -17,5 +17,5 @@ api.interceptors.response.use(
       // или редирект на страницу логина
     }
     return Promise.reject(error);
-  }
+  },
 );

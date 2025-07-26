@@ -1,4 +1,9 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+} from 'typeorm';
 
 @Entity('orders')
 export class Order {
@@ -13,4 +18,4 @@ export class Order {
 
   @CreateDateColumn()
   created_at: Date;
-} 
+}

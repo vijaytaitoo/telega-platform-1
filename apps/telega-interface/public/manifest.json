@@ -1,0 +1,68 @@
+{
+  "name": "Tele•Ga - Ecosystem of the Future",
+  "short_name": "Tele•Ga",
+  "description": "Инновации, радикальная простота и эстетика будущего внутри Telegram",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#121212",
+  "theme_color": "#F28C38",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["business", "productivity", "shopping"],
+  "lang": "ru",
+  "dir": "ltr",
+  "scope": "/",
+  "screenshots": [
+    {
+      "src": "/screenshot-wide.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide"
+    },
+    {
+      "src": "/screenshot-narrow.png",
+      "sizes": "640x1136",
+      "type": "image/png",
+      "form_factor": "narrow"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Tele•Ga Studio",
+      "short_name": "Studio",
+      "description": "Конструктор магазинов",
+      "url": "/?page=studio",
+      "icons": [
+        {
+          "src": "/studio-icon.png",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "Marketbase",
+      "short_name": "Market",
+      "description": "Каталог магазинов",
+      "url": "/?page=marketbase",
+      "icons": [
+        {
+          "src": "/market-icon.png",
+          "sizes": "96x96"
+        }
+      ]
+    }
+  ]
+}

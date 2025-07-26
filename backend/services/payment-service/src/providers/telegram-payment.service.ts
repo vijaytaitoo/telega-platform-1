@@ -18,9 +18,12 @@ export class TelegramPaymentService implements IPaymentProvider {
 
   constructor(private readonly configService: ConfigService) {
     const botToken = this.configService.get<string>('TELEGRAM_BOT_TOKEN');
-    const providerToken = this.configService.get<string>('TELEGRAM_PROVIDER_TOKEN');
+    const providerToken = this.configService.get<string>(
+      'TELEGRAM_PROVIDER_TOKEN',
+    );
     if (!botToken) throw new Error('TELEGRAM_BOT_TOKEN is not defined');
-    if (!providerToken) throw new Error('TELEGRAM_PROVIDER_TOKEN is not defined');
+    if (!providerToken)
+      throw new Error('TELEGRAM_PROVIDER_TOKEN is not defined');
     this.botToken = botToken;
     this.providerToken = providerToken;
   }

@@ -39,4 +39,4 @@ export class CampaignGateway {
   sendError(campaignId: string, payload: any) {
     this.server.to(campaignId).emit(CampaignEventsEnum.ERROR, payload);
   }
-} 
+}

@@ -1,4 +1,5 @@
 import {
+import React from 'react';
   Box,
   HStack,
   VStack,
@@ -10,7 +11,7 @@ import {
   NumberInputStepper,
   NumberIncrementStepper,
   NumberDecrementStepper,
-  useColorModeValue
+  useColorModeValue,
 } from '@chakra-ui/react';
 import { FiTrash2 } from 'react-icons/fi';
 
@@ -31,7 +32,7 @@ export const CartItem = ({
   quantity,
   image,
   onQuantityChange,
-  onRemove
+  onRemove,
 }: CartItemProps) => {
   const bgColor = useColorModeValue('white', 'gray.800');
   const borderColor = useColorModeValue('gray.100', 'gray.700');
@@ -47,13 +48,7 @@ export const CartItem = ({
       _hover={{ shadow: 'sm' }}
     >
       <HStack spacing={4} align="start">
-        <Image
-          src={image}
-          alt={title}
-          boxSize="100px"
-          objectFit="cover"
-          borderRadius="md"
-        />
+        <Image src={image} alt={title} boxSize="100px" objectFit="cover" borderRadius="md" />
 
         <VStack flex={1} align="start" spacing={2}>
           <Text fontWeight="medium" fontSize="lg">

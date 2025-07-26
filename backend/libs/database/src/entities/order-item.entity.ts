@@ -8,14 +8,14 @@ export class OrderItem extends BaseEntity {
   @Column({ name: 'order_id' })
   orderId: string;
 
-  @ManyToOne(() => Order, order => order.items)
+  @ManyToOne(() => Order, (order) => order.items)
   @JoinColumn({ name: 'order_id' })
   order: Order;
 
   @Column({ name: 'product_id' })
   productId: string;
 
-  @ManyToOne(() => Product, product => product.orderItems)
+  @ManyToOne(() => Product, (product) => product.orderItems)
   @JoinColumn({ name: 'product_id' })
   product: Product;
 
@@ -30,4 +30,4 @@ export class OrderItem extends BaseEntity {
 
   @Column({ type: 'jsonb', default: '{}' })
   metadata: Record<string, any>;
-} 
+}

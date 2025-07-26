@@ -12,12 +12,15 @@ export class NotificationService {
     private readonly botService: BotService,
   ) {}
 
-  async send(userId: string, notification: {
-    title: string;
-    message: string;
-    type: string;
-    metadata?: any;
-  }) {
+  async send(
+    userId: string,
+    notification: {
+      title: string;
+      message: string;
+      type: string;
+      metadata?: any;
+    },
+  ) {
     const user = await this.userRepository.findOne({
       where: { id: userId },
     });
@@ -38,12 +41,15 @@ ${notification.message}
     });
   }
 
-  async sendToMany(userIds: string[], notification: {
-    title: string;
-    message: string;
-    type: string;
-    metadata?: any;
-  }) {
+  async sendToMany(
+    userIds: string[],
+    notification: {
+      title: string;
+      message: string;
+      type: string;
+      metadata?: any;
+    },
+  ) {
     const users = await this.userRepository.find({
       where: { id: In(userIds) },
     });
@@ -56,8 +62,8 @@ ${notification.message}
 
     return Promise.all(
       users
-        .filter(user => user.telegramId)
-        .map(user =>
+        .filter((user) => user.telegramId)
+        .map((user) =>
           this.botService.sendMessage(user.telegramId, message, {
             parse_mode: 'Markdown',
             ...notification.metadata,

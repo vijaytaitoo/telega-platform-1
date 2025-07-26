@@ -17,4 +17,4 @@ export class CreateCampaignDto {
   @IsArray()
   @IsString({ each: true })
   recipients: string[];
-} 
+}

@@ -36,4 +36,4 @@ export interface IPaymentProvider {
   processWebhook(payload: any): Promise<PaymentResult>;
   getPaymentStatus(paymentId: string): Promise<PaymentStatus>;
   refundPayment(paymentId: string): Promise<PaymentResult>;
-} 
+}

@@ -4,10 +4,12 @@ import { ValidationPipe, Logger } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 import { NestExpressApplication } from '@nestjs/platform-express';
+import * as dotenv from 'dotenv';
+dotenv.config();
 
 async function bootstrap() {
   const logger = new Logger('Bootstrap');
-  
+
   try {
     const app = await NestFactory.create<NestExpressApplication>(AppModule, {
       logger: ['error', 'warn', 'log', 'debug', 'verbose'],
@@ -24,11 +26,13 @@ async function bootstrap() {
     });
 
     // Включаем валидацию
-    app.useGlobalPipes(new ValidationPipe({
-      transform: true,
-      whitelist: true,
-      forbidNonWhitelisted: true,
-    }));
+    app.useGlobalPipes(
+      new ValidationPipe({
+        transform: true,
+        whitelist: true,
+        forbidNonWhitelisted: true,
+      }),
+    );
 
     // Настраиваем Swagger
     const config = new DocumentBuilder()
@@ -42,11 +46,13 @@ async function bootstrap() {
     SwaggerModule.setup('api', app, document);
 
     // Запускаем приложение
-    const port = 3031;
+    const port = process.env.PORT ? Number(process.env.PORT) : 3031;
     await app.listen(port, '0.0.0.0');
-    
+
     logger.log(`Application is running on: http://localhost:${port}`);
-    logger.log(`Swagger documentation is available at: http://localhost:${port}/api`);
+    logger.log(
+      `Swagger documentation is available at: http://localhost:${port}/api`,
+    );
     logger.log('Try also:');
     logger.log(`- http://127.0.0.1:${port}`);
     logger.log(`- http://127.0.0.1:${port}/api`);
@@ -56,7 +62,7 @@ async function bootstrap() {
   }
 }
 
-bootstrap().catch(err => {
+bootstrap().catch((err) => {
   console.error('Failed to start application:', err);
   process.exit(1);
 });

@@ -11,15 +11,19 @@ export class TelegramProcessor {
   constructor(private readonly telegramService: TelegramService) {}
 
   @Process('message')
-  async handleMessage(job: Job<{ chatId: number; text: string; options?: any }>) {
+  async handleMessage(
+    job: Job<{ chatId: number; text: string; options?: any }>,
+  ) {
     this.logger.debug(`Processing message job ${job.id}`);
     const { chatId, text, options } = job.data;
-    
+
     try {
       await this.telegramService.sendMessage(chatId, text, options);
       this.logger.debug(`Message sent successfully to chat ${chatId}`);
     } catch (error) {
-      this.logger.error(`Failed to send message to chat ${chatId}: ${error.message}`);
+      this.logger.error(
+        `Failed to send message to chat ${chatId}: ${error.message}`,
+      );
       throw error;
     }
   }
@@ -39,15 +43,17 @@ export class TelegramProcessor {
   }
 
   @Process('notification')
-  async handleNotification(job: Job<{
-    userId: string;
-    notification: {
-      title: string;
-      message: string;
-      type: string;
-      metadata?: any;
-    };
-  }>) {
+  async handleNotification(
+    job: Job<{
+      userId: string;
+      notification: {
+        title: string;
+        message: string;
+        type: string;
+        metadata?: any;
+      };
+    }>,
+  ) {
     this.logger.debug(`Processing notification job ${job.id}`);
     const { userId, notification } = job.data;
 
@@ -55,7 +61,9 @@ export class TelegramProcessor {
       await this.telegramService.sendNotification(userId, notification);
       this.logger.debug(`Notification sent successfully to user ${userId}`);
     } catch (error) {
-      this.logger.error(`Failed to send notification to user ${userId}: ${error.message}`);
+      this.logger.error(
+        `Failed to send notification to user ${userId}: ${error.message}`,
+      );
       throw error;
     }
   }

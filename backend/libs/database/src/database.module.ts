@@ -22,4 +22,4 @@ import * as entities from './entities';
     }),
   ],
 })
-export class DatabaseModule {} 
+export class DatabaseModule {}

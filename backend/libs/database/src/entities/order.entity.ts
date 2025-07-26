@@ -9,14 +9,14 @@ export class Order extends BaseEntity {
   @Column({ name: 'shop_id' })
   shopId: string;
 
-  @ManyToOne(() => Shop, shop => shop.orders)
+  @ManyToOne(() => Shop, (shop) => shop.orders)
   @JoinColumn({ name: 'shop_id' })
   shop: Shop;
 
   @Column({ name: 'customer_id' })
   customerId: string;
 
-  @ManyToOne(() => User, user => user.orders)
+  @ManyToOne(() => User, (user) => user.orders)
   @JoinColumn({ name: 'customer_id' })
   customer: User;
 
@@ -46,6 +46,6 @@ export class Order extends BaseEntity {
   @Column({ type: 'jsonb', default: '{}' })
   metadata: Record<string, any>;
 
-  @OneToMany(() => OrderItem, orderItem => orderItem.order)
+  @OneToMany(() => OrderItem, (orderItem) => orderItem.order)
   items: OrderItem[];
-} 
+}

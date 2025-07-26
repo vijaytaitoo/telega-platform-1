@@ -11,7 +11,8 @@
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",
-    "@nestjs/microservices": "^10.0.0",
+    "@nestjs/microservices": "^11.1.5",
+    "@nestjs/testing": "11.1.5",
     "@telega/common": "file:../common",
     "amqp-connection-manager": "^4.1.0",
     "amqplib": "^0.10.0"

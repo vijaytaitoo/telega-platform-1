@@ -19,7 +19,9 @@ export class ShopsService {
       if (error) throw error;
       return data;
     } catch (error) {
-      throw new Error(`Ошибка при получении списка магазинов: ${error.message}`);
+      throw new Error(
+        `Ошибка при получении списка магазинов: ${error.message}`,
+      );
     }
   }
 
@@ -46,7 +48,7 @@ export class ShopsService {
       const newShop = {
         ...createShopDto,
         created_at: new Date(),
-        updated_at: new Date()
+        updated_at: new Date(),
       };
 
       const { data, error } = await this.supabaseService
@@ -67,7 +69,7 @@ export class ShopsService {
     try {
       const updateData = {
         ...updateShopDto,
-        updated_at: new Date()
+        updated_at: new Date(),
       };
 
       const { data, error } = await this.supabaseService

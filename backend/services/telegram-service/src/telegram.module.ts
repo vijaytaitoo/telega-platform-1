@@ -20,10 +20,12 @@ import { AuthModule } from './auth/auth.module';
     ConfigModule.forRoot(),
     DatabaseModule,
     ThrottlerModule.forRoot({
-      throttlers: [{
-        ttl: 60000, // 1 минута
-        limit: 10, // 10 запросов
-      }],
+      throttlers: [
+        {
+          ttl: 60000, // 1 минута
+          limit: 10, // 10 запросов
+        },
+      ],
     }),
     BullModule.registerQueue({ name: 'telegram' }),
     AuthModule,

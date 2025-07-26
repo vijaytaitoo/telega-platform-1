@@ -1,15 +1,11 @@
-import {
-  Body,
-  Controller,
-  Get,
-  Param,
-  Post,
-  UseGuards,
-} from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { Payment } from '@telega/database';
 import { PaymentService } from './payment.service';
-import { PaymentDetails, PaymentProvider } from './interfaces/payment.interface';
+import {
+  PaymentDetails,
+  PaymentProvider,
+} from './interfaces/payment.interface';
 
 @Controller('payments')
 @UseGuards(AuthGuard('jwt'))
@@ -37,7 +33,9 @@ export class PaymentController {
   }
 
   @Get('order/:orderId')
-  async getPaymentsByOrder(@Param('orderId') orderId: string): Promise<Payment[]> {
+  async getPaymentsByOrder(
+    @Param('orderId') orderId: string,
+  ): Promise<Payment[]> {
     return this.paymentService.getPaymentsByOrderId(orderId);
   }
 
@@ -45,4 +43,4 @@ export class PaymentController {
   async refundPayment(@Param('id') id: string): Promise<Payment> {
     return this.paymentService.refundPayment(id);
   }
-} 
+}

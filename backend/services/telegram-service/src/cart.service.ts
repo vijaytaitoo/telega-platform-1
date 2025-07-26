@@ -29,13 +29,18 @@ export class CartService {
     return this.carts.get(userId) as Cart;
   }
 
-  async addToCart(userId: number, product: {
-    id: string;
-    title: string;
-    price: number;
-  }): Promise<Cart> {
+  async addToCart(
+    userId: number,
+    product: {
+      id: string;
+      title: string;
+      price: number;
+    },
+  ): Promise<Cart> {
     const cart = this.getCart(userId);
-    const existingItem = cart.items.find(item => item.productId === product.id);
+    const existingItem = cart.items.find(
+      (item) => item.productId === product.id,
+    );
 
     if (existingItem) {
       existingItem.quantity += 1;
@@ -44,22 +49,29 @@ export class CartService {
         productId: product.id,
         title: product.title,
         price: product.price,
-        quantity: 1
+        quantity: 1,
       });
     }
 
     return this.sendCartSummary(userId);
   }
 
-  async removeFromCart(userId: number, productId: string): Promise<Cart | null> {
+  async removeFromCart(
+    userId: number,
+    productId: string,
+  ): Promise<Cart | null> {
     const cart = this.getCart(userId);
-    cart.items = cart.items.filter(item => item.productId !== productId);
+    cart.items = cart.items.filter((item) => item.productId !== productId);
     return this.sendCartSummary(userId);
   }
 
-  async updateQuantity(userId: number, productId: string, change: 'increase' | 'decrease'): Promise<Cart | null> {
+  async updateQuantity(
+    userId: number,
+    productId: string,
+    change: 'increase' | 'decrease',
+  ): Promise<Cart | null> {
     const cart = this.getCart(userId);
-    const item = cart.items.find(item => item.productId === productId);
+    const item = cart.items.find((item) => item.productId === productId);
 
     if (item) {
       if (quantity <= 0) {
@@ -78,10 +90,17 @@ export class CartService {
 
   async getCartTotal(userId: number): Promise<number> {
     const cart = this.getCart(userId);
-    return cart.items.reduce((total, item) => total + (item.price * item.quantity), 0);
+    return cart.items.reduce(
+      (total, item) => total + item.price * item.quantity,
+      0,
+    );
   }
 
-  public async sendCartSummary(userId: number, cart: Cart, options?: ExtraReplyMessage): Promise<Message.TextMessage> {
+  public async sendCartSummary(
+    userId: number,
+    cart: Cart,
+    options?: ExtraReplyMessage,
+  ): Promise<Message.TextMessage> {
     const cart = this.getCart(userId);
     const total = await this.getCartTotal(userId);
 
@@ -90,36 +109,48 @@ export class CartService {
     }
 
     const itemsList = cart.items
-      .map(item => `${item.title}\nx${item.quantity} = ${item.price * item.quantity} ₽`)
+      .map(
+        (item) =>
+          `${item.title}\nx${item.quantity} = ${item.price * item.quantity} ₽`,
+      )
       .join('\n\n');
 
     const keyboard = {
       inline_keyboard: [
-        ...cart.items.map(item => ([
-          { 
-            text: `➖`, 
-            callback_data: JSON.stringify({ action: 'decrease_quantity', productId: item.productId })
+        ...cart.items.map((item) => [
+          {
+            text: `➖`,
+            callback_data: JSON.stringify({
+              action: 'decrease_quantity',
+              productId: item.productId,
+            }),
           },
-          { 
-            text: `❌ ${item.title}`, 
-            callback_data: JSON.stringify({ action: 'remove_from_cart', productId: item.productId })
+          {
+            text: `❌ ${item.title}`,
+            callback_data: JSON.stringify({
+              action: 'remove_from_cart',
+              productId: item.productId,
+            }),
           },
-          { 
-            text: `➕`, 
-            callback_data: JSON.stringify({ action: 'increase_quantity', productId: item.productId })
-          }
-        ])),
+          {
+            text: `➕`,
+            callback_data: JSON.stringify({
+              action: 'increase_quantity',
+              productId: item.productId,
+            }),
+          },
+        ]),
         [
-          { 
-            text: '🗑 Очистить корзину', 
-            callback_data: JSON.stringify({ action: 'clear_cart' })
+          {
+            text: '🗑 Очистить корзину',
+            callback_data: JSON.stringify({ action: 'clear_cart' }),
           },
-          { 
-            text: '💳 Оформить заказ', 
-            callback_data: JSON.stringify({ action: 'checkout' })
-          }
-        ]
-      ]
+          {
+            text: '💳 Оформить заказ',
+            callback_data: JSON.stringify({ action: 'checkout' }),
+          },
+        ],
+      ],
     };
 
     const text = `
@@ -132,7 +163,7 @@ ${itemsList}
 
     return this.botService.sendMessage(userId, text, {
       reply_markup: keyboard,
-      parse_mode: 'HTML'
+      parse_mode: 'HTML',
     });
   }
 }

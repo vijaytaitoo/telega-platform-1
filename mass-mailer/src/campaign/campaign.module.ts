@@ -17,4 +17,4 @@ import { PrismaService } from '../prisma.service';
   controllers: [CampaignController],
   providers: [CampaignService, CampaignProcessor, CampaignGateway, PrismaService],
 })
-export class CampaignModule {} 
+export class CampaignModule {}

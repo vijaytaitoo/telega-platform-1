@@ -8,10 +8,7 @@ import { TelegramPaymentService } from './providers/telegram-payment.service';
 import { PaymentWebhookService } from './webhook.service';
 
 @Module({
-  imports: [
-    ConfigModule.forRoot(),
-    DatabaseModule,
-  ],
+  imports: [ConfigModule.forRoot(), DatabaseModule],
   controllers: [PaymentController],
   providers: [
     PaymentService,
@@ -21,4 +18,4 @@ import { PaymentWebhookService } from './webhook.service';
   ],
   exports: [PaymentService],
 })
-export class PaymentModule {} 
+export class PaymentModule {}

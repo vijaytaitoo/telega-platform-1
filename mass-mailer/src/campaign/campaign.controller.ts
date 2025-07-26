@@ -27,7 +27,12 @@ export class CampaignController {
     @Query('limit') limit = 20,
     @Query('offset') offset = 0,
   ) {
-    return this.campaignService.getCampaigns({ ownerId, status, limit: Number(limit), offset: Number(offset) });
+    return this.campaignService.getCampaigns({
+      ownerId,
+      status,
+      limit: Number(limit),
+      offset: Number(offset),
+    });
   }
 
   @Get(':id/status')
@@ -50,4 +55,4 @@ export class CampaignController {
   async abort(@Param('id') id: string) {
     return this.campaignService.abortCampaign(id);
   }
-} 
+}

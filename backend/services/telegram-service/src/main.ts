@@ -27,7 +27,9 @@ async function bootstrap() {
   // Swagger документация
   const options = new DocumentBuilder()
     .setTitle('Telegram Service API')
-    .setDescription('API для управления Telegram ботами и взаимодействия с пользователями')
+    .setDescription(
+      'API для управления Telegram ботами и взаимодействия с пользователями',
+    )
     .setVersion('1.0')
     .addBearerAuth()
     .build();

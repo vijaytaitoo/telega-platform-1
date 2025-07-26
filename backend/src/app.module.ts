@@ -30,10 +30,7 @@ import { bullConfig } from './config/bull.config';
       maxRetriesPerRequest: 3,
     }),
     BullModule.forRoot(bullConfig),
-    BullModule.registerQueue(
-      { name: 'telegram' },
-      { name: 'email' }
-    ),
+    BullModule.registerQueue({ name: 'telegram' }, { name: 'email' }),
     SupabaseModule,
     ShopsModule,
   ],

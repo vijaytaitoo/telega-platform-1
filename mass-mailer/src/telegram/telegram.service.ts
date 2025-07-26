@@ -11,7 +11,13 @@ export class TelegramService {
     });
   }
 
-  async sendPhoto(token: string, chatId: number | string, photo: string, caption?: string, buttons?: any) {
+  async sendPhoto(
+    token: string,
+    chatId: number | string,
+    photo: string,
+    caption?: string,
+    buttons?: any,
+  ) {
     const bot = new Telegraf(token);
     await bot.telegram.sendPhoto(chatId, photo, {
       caption,
@@ -19,4 +25,4 @@ export class TelegramService {
       reply_markup: buttons ? { inline_keyboard: buttons } : undefined,
     });
   }
-} 
+}

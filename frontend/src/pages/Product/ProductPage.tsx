@@ -1,4 +1,5 @@
 import {
+import React from 'react';
   Box,
   Container,
   SimpleGrid,
@@ -13,7 +14,7 @@ import {
   TabList,
   TabPanels,
   TabPanel,
-  useColorModeValue
+  useColorModeValue,
 } from '@chakra-ui/react';
 import { FiShoppingCart, FiHeart, FiShare2 } from 'react-icons/fi';
 
@@ -45,9 +46,9 @@ export const ProductPage = () => {
       { url: '/product-2.jpg', alt: 'Фото 2' },
     ],
     characteristics: {
-      'Материал': 'Хлопок',
-      'Размер': 'M',
-      'Цвет': 'Синий',
+      Материал: 'Хлопок',
+      Размер: 'M',
+      Цвет: 'Синий',
     },
     inStock: true,
   };
@@ -58,12 +59,7 @@ export const ProductPage = () => {
     <Container maxW="container.xl" py={8}>
       <SimpleGrid columns={{ base: 1, md: 2 }} spacing={8}>
         {/* Галерея */}
-        <Box
-          bg={bgColor}
-          p={4}
-          borderRadius="xl"
-          shadow="sm"
-        >
+        <Box bg={bgColor} p={4} borderRadius="xl" shadow="sm">
           <Image
             src={product.images[0].url}
             alt={product.images[0].alt}
@@ -98,19 +94,11 @@ export const ProductPage = () => {
             </Text>
 
             <HStack spacing={2}>
-              <Text
-                fontSize="2xl"
-                fontWeight="bold"
-                color="brand.solid.blue.start"
-              >
+              <Text fontSize="2xl" fontWeight="bold" color="brand.solid.blue.start">
                 {product.price.toLocaleString()} ₽
               </Text>
               {product.oldPrice && (
-                <Text
-                  fontSize="lg"
-                  color="gray.500"
-                  textDecoration="line-through"
-                >
+                <Text fontSize="lg" color="gray.500" textDecoration="line-through">
                   {product.oldPrice.toLocaleString()} ₽
                 </Text>
               )}

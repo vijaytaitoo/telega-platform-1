@@ -7,7 +7,11 @@ import { WebhookService } from './webhook.service';
 import { NotificationService } from './notification.service';
 import { CartService } from './cart.service';
 import { OrderService } from './order.service';
-import { Update, Message, CallbackQuery } from 'telegraf/typings/core/types/typegram';
+import {
+  Update,
+  Message,
+  CallbackQuery,
+} from 'telegraf/typings/core/types/typegram';
 
 @Injectable()
 export class TelegramService {
@@ -33,12 +37,15 @@ export class TelegramService {
     await this.telegramQueue.add('message', { chatId, text, options });
   }
 
-  async sendNotification(userId: string, notification: {
-    title: string;
-    message: string;
-    type: string;
-    metadata?: any;
-  }) {
+  async sendNotification(
+    userId: string,
+    notification: {
+      title: string;
+      message: string;
+      type: string;
+      metadata?: any;
+    },
+  ) {
     await this.telegramQueue.add('notification', { userId, notification });
   }
 
@@ -46,20 +53,35 @@ export class TelegramService {
     await this.telegramQueue.add('update', { update });
   }
 
-  async sendProductCard(chatId: number, product: {
-    id: string;
-    title: string;
-    price: number;
-    image: string;
-    description: string;
-  }) {
+  async sendProductCard(
+    chatId: number,
+    product: {
+      id: string;
+      title: string;
+      price: number;
+      image: string;
+      description: string;
+    },
+  ) {
     const keyboard = {
       inline_keyboard: [
         [
-          { text: '🛒 В корзину', callback_data: JSON.stringify({ action: 'add_to_cart', productId: product.id }) },
-          { text: '💬 Подробнее', callback_data: JSON.stringify({ action: 'product_details', productId: product.id }) }
-        ]
-      ]
+          {
+            text: '🛒 В корзину',
+            callback_data: JSON.stringify({
+              action: 'add_to_cart',
+              productId: product.id,
+            }),
+          },
+          {
+            text: '💬 Подробнее',
+            callback_data: JSON.stringify({
+              action: 'product_details',
+              productId: product.id,
+            }),
+          },
+        ],
+      ],
     };
 
     const text = `
@@ -72,18 +94,21 @@ ${product.description}
 
     return this.botService.sendMessage(chatId, text, {
       reply_markup: keyboard,
-      parse_mode: 'HTML'
+      parse_mode: 'HTML',
     });
   }
 
-  async sendOrderConfirmation(chatId: number, order: {
-    id: string;
-    items: Array<{ title: string; quantity: number; price: number }>;
-    total: number;
-    status: string;
-  }) {
+  async sendOrderConfirmation(
+    chatId: number,
+    order: {
+      id: string;
+      items: Array<{ title: string; quantity: number; price: number }>;
+      total: number;
+      status: string;
+    },
+  ) {
     const itemsList = order.items
-      .map(item => `${item.title} x${item.quantity} - ${item.price} ₽`)
+      .map((item) => `${item.title} x${item.quantity} - ${item.price} ₽`)
       .join('\n');
 
     const text = `
@@ -98,13 +123,21 @@ ${itemsList}
 
     const keyboard = {
       inline_keyboard: [
-        [{ text: '📋 Детали заказа', callback_data: JSON.stringify({ action: 'order_details', orderId: order.id }) }]
-      ]
+        [
+          {
+            text: '📋 Детали заказа',
+            callback_data: JSON.stringify({
+              action: 'order_details',
+              orderId: order.id,
+            }),
+          },
+        ],
+      ],
     };
 
     return this.botService.sendMessage(chatId, text, {
       reply_markup: keyboard,
-      parse_mode: 'HTML'
+      parse_mode: 'HTML',
     });
   }
 
@@ -116,18 +149,20 @@ ${itemsList}
       const keyboard = {
         keyboard: [
           [{ text: '🛍 Каталог' }, { text: '🛒 Корзина' }],
-          [{ text: '📦 Мои заказы' }, { text: '⚙️ Настройки' }]
+          [{ text: '📦 Мои заказы' }, { text: '⚙️ Настройки' }],
         ],
-        resize_keyboard: true
+        resize_keyboard: true,
       };
 
       await this.sendMessage(
         chat.id,
         'Добро пожаловать в Tele•Ga! 🎉\n\nЯ помогу вам совершать покупки прямо в Telegram.\n\nИспользуйте кнопки меню для навигации или отправьте /help для получения списка команд.',
-        { reply_markup: keyboard }
+        { reply_markup: keyboard },
       );
     } else if (text === '/help' || text === 'help') {
-      await this.sendMessage(chat.id, `
+      await this.sendMessage(
+        chat.id,
+        `
 Доступные команды:
 
 🛍 Каталог - Просмотр товаров
@@ -136,7 +171,8 @@ ${itemsList}
 ⚙️ Настройки - Настройки профиля
 
 Техническая поддержка: /support
-      `.trim());
+      `.trim(),
+      );
     } else if (text.toLowerCase() === '🛍 каталог' || text === '/catalog') {
       // TODO: Интеграция с сервисом каталога
       const demoProduct = {
@@ -144,7 +180,7 @@ ${itemsList}
         title: 'Демо товар',
         price: 1999,
         image: 'https://example.com/image.jpg',
-        description: 'Описание демо товара'
+        description: 'Описание демо товара',
       };
       await this.sendProductCard(chat.id, demoProduct);
     } else if (text.toLowerCase() === '🛒 корзина' || text === '/cart') {
@@ -160,21 +196,27 @@ ${itemsList}
         await this.sendMessage(chat.id, '📦 У вас пока нет заказов');
       } else {
         const ordersList = orders
-          .map(order => `Заказ #${order.id}\n💰 Сумма: ${order.total} ₽\n📦 Статус: ${order.status}`)
+          .map(
+            (order) =>
+              `Заказ #${order.id}\n💰 Сумма: ${order.total} ₽\n📦 Статус: ${order.status}`,
+          )
           .join('\n\n');
 
         const keyboard = {
-          inline_keyboard: orders.map(order => ([
-            { 
-              text: `📋 Заказ #${order.id}`, 
-              callback_data: JSON.stringify({ action: 'order_details', orderId: order.id })
-            }
-          ]))
+          inline_keyboard: orders.map((order) => [
+            {
+              text: `📋 Заказ #${order.id}`,
+              callback_data: JSON.stringify({
+                action: 'order_details',
+                orderId: order.id,
+              }),
+            },
+          ]),
         };
 
         await this.sendMessage(chat.id, `📦 Ваши заказы:\n\n${ordersList}`, {
           reply_markup: keyboard,
-          parse_mode: 'HTML'
+          parse_mode: 'HTML',
         });
       }
     }
@@ -193,17 +235,20 @@ ${itemsList}
           await this.cartService.addToCart(chatId, {
             id: callback.productId,
             title: 'Демо товар', // В реальном приложении получаем из БД
-            price: 1999
+            price: 1999,
           });
           await this.botService.answerCallbackQuery(callbackQuery.id, {
             text: '✅ Товар добавлен в корзину!',
-            show_alert: true
+            show_alert: true,
           });
           break;
 
         case 'product_details':
           await this.botService.answerCallbackQuery(callbackQuery.id);
-          await this.sendMessage(chatId, `Подробная информация о товаре #${callback.productId}\n\nСкоро здесь появится полное описание товара с характеристиками и отзывами.`);
+          await this.sendMessage(
+            chatId,
+            `Подробная информация о товаре #${callback.productId}\n\nСкоро здесь появится полное описание товара с характеристиками и отзывами.`,
+          );
           break;
 
         case 'order_details':
@@ -211,10 +256,15 @@ ${itemsList}
           if (order) {
             await this.botService.answerCallbackQuery(callbackQuery.id);
             const itemsList = order.items
-              .map(item => `${item.title} x${item.quantity} = ${item.price * item.quantity} ₽`)
+              .map(
+                (item) =>
+                  `${item.title} x${item.quantity} = ${item.price * item.quantity} ₽`,
+              )
               .join('\n');
 
-            await this.sendMessage(chatId, `
+            await this.sendMessage(
+              chatId,
+              `
 📋 Информация о заказе #${order.id}
 
 Состав заказа:
@@ -223,7 +273,8 @@ ${itemsList}
 💰 Итого: ${order.total} ₽
 📦 Статус: ${order.status}
 🏠 Адрес доставки: ${order.shippingAddress}
-            `.trim());
+            `.trim(),
+            );
           }
           break;
 
@@ -231,8 +282,9 @@ ${itemsList}
           await this.cartService.updateQuantity(
             chatId,
             callback.productId,
-            (await this.cartService.getCart(chatId)).items
-              .find(item => item.productId === callback.productId).quantity - 1
+            (await this.cartService.getCart(chatId)).items.find(
+              (item) => item.productId === callback.productId,
+            ).quantity - 1,
           );
           await this.botService.answerCallbackQuery(callbackQuery.id);
           break;
@@ -241,8 +293,9 @@ ${itemsList}
           await this.cartService.updateQuantity(
             chatId,
             callback.productId,
-            (await this.cartService.getCart(chatId)).items
-              .find(item => item.productId === callback.productId).quantity + 1
+            (await this.cartService.getCart(chatId)).items.find(
+              (item) => item.productId === callback.productId,
+            ).quantity + 1,
           );
           await this.botService.answerCallbackQuery(callbackQuery.id);
           break;
@@ -251,7 +304,7 @@ ${itemsList}
           await this.cartService.removeFromCart(chatId, callback.productId);
           await this.botService.answerCallbackQuery(callbackQuery.id, {
             text: '🗑 Товар удален из корзины',
-            show_alert: true
+            show_alert: true,
           });
           break;
 
@@ -259,17 +312,20 @@ ${itemsList}
           await this.cartService.clearCart(chatId);
           await this.botService.answerCallbackQuery(callbackQuery.id, {
             text: '🗑 Корзина очищена',
-            show_alert: true
+            show_alert: true,
           });
           break;
 
         case 'checkout':
           // В реальном приложении здесь должен быть запрос адреса доставки
           const demoAddress = 'ул. Примерная, д. 1, кв. 1';
-          const newOrder = await this.orderService.createOrder(chatId, demoAddress);
+          const newOrder = await this.orderService.createOrder(
+            chatId,
+            demoAddress,
+          );
           await this.botService.answerCallbackQuery(callbackQuery.id, {
             text: '✅ Заказ успешно создан!',
-            show_alert: true
+            show_alert: true,
           });
           break;
 

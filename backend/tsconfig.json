@@ -9,12 +9,13 @@
     "target": "ES2023",
     "sourceMap": true,
     "outDir": "./dist",
-    "baseUrl": "./",
+    "baseUrl": "./src",
     "paths": {
       "@/*": ["src/*"],
       "@telega/common": ["libs/common/src/index.ts"],
       "@telega/database": ["libs/database/src/index.ts"],
-      "@telega/messaging": ["libs/messaging/src/index.ts"]
+      "@telega/messaging": ["libs/messaging/src/index.ts"],
+      "@tg-shop/shared/*": ["../../shared/src/*"]
     },
     "incremental": true,
     "skipLibCheck": true,

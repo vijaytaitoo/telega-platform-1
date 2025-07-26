@@ -41,9 +41,9 @@ export class CampaignService {
     });
     if (!campaign) return null;
     const recipientsTotal = campaign.recipients.length;
-    const recipientsSent = campaign.recipients.filter(r => r.status === 'SENT').length;
-    const recipientsError = campaign.recipients.filter(r => r.status === 'ERROR').length;
-    const recipientsPending = campaign.recipients.filter(r => r.status === 'PENDING').length;
+    const recipientsSent = campaign.recipients.filter((r) => r.status === 'SENT').length;
+    const recipientsError = campaign.recipients.filter((r) => r.status === 'ERROR').length;
+    const recipientsPending = campaign.recipients.filter((r) => r.status === 'PENDING').length;
     return {
       id: campaign.id,
       status: campaign.status,
@@ -56,12 +56,7 @@ export class CampaignService {
     };
   }
 
-  async getCampaigns(query: {
-    ownerId: string;
-    status?: string;
-    limit?: number;
-    offset?: number;
-  }) {
+  async getCampaigns(query: { ownerId: string; status?: string; limit?: number; offset?: number }) {
     return this.prisma.campaign.findMany({
       where: {
         ownerId: query.ownerId,
@@ -94,7 +89,7 @@ export class CampaignService {
     await this.campaignQueue.add('send-campaign', {
       campaignId,
       retryOnly: true,
-      chatIds: failedRecipients.map(r => r.userId),
+      chatIds: failedRecipients.map((r) => r.userId),
     });
     return { retried: failedRecipients.length };
   }
@@ -110,4 +105,4 @@ export class CampaignService {
     });
     return { aborted: true };
   }
-} 
+}

@@ -5,15 +5,18 @@ import * as path from 'path';
 export class CreateBaseTables1709654321000 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     // Читаем SQL файл со схемой базы данных
-    const schemaPath = path.join(__dirname, '../../../../docs/DATABASE_SCHEMA.md');
+    const schemaPath = path.join(
+      __dirname,
+      '../../../../docs/DATABASE_SCHEMA.md',
+    );
     const schemaContent = fs.readFileSync(schemaPath, 'utf8');
 
     // Извлекаем SQL запросы из markdown файла
     const sqlQueries = schemaContent
       .split('```sql')
       .slice(1)
-      .map(block => block.split('```')[0].trim())
-      .filter(query => query.startsWith('CREATE TABLE'));
+      .map((block) => block.split('```')[0].trim())
+      .filter((query) => query.startsWith('CREATE TABLE'));
 
     // Выполняем каждый запрос в транзакции
     await queryRunner.startTransaction();
@@ -42,7 +45,7 @@ export class CreateBaseTables1709654321000 implements MigrationInterface {
       'categories',
       'shops',
       'templates',
-      'users'
+      'users',
     ];
 
     await queryRunner.startTransaction();
@@ -56,4 +59,4 @@ export class CreateBaseTables1709654321000 implements MigrationInterface {
       throw err;
     }
   }
-} 
+}

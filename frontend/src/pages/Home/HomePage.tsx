@@ -1,4 +1,5 @@
 import {
+import React from 'react';
   Box,
   Container,
   SimpleGrid,
@@ -10,7 +11,7 @@ import {
   InputGroup,
   InputLeftElement,
   Icon,
-  useColorModeValue
+  useColorModeValue,
 } from '@chakra-ui/react';
 import { FiSearch, FiFilter } from 'react-icons/fi';
 import { ProductCard } from '../../components/Product/ProductCard';
@@ -20,7 +21,7 @@ const categories = [
   { id: '1', name: 'Одежда', icon: '👕' },
   { id: '2', name: 'Электроника', icon: '📱' },
   { id: '3', name: 'Дом', icon: '🏠' },
-  { id: '4', name: 'Красота', icon: '💄' }
+  { id: '4', name: 'Красота', icon: '💄' },
 ];
 
 const products = [
@@ -29,28 +30,28 @@ const products = [
     title: 'Стильная футболка',
     price: 2999,
     image: '/product-1.jpg',
-    isNew: true
+    isNew: true,
   },
   {
     id: '2',
     title: 'Смартфон XPhone',
     price: 79999,
     image: '/product-2.jpg',
-    discount: 15
+    discount: 15,
   },
   {
     id: '3',
     title: 'Умные часы SmartWatch',
     price: 19999,
-    image: '/product-3.jpg'
+    image: '/product-3.jpg',
   },
   {
     id: '4',
     title: 'Беспроводные наушники',
     price: 12999,
     image: '/product-4.jpg',
-    discount: 20
-  }
+    discount: 20,
+  },
 ];
 
 export const HomePage = () => {
@@ -83,13 +84,7 @@ export const HomePage = () => {
         </HStack>
 
         {/* Баннер */}
-        <Box
-          mb={8}
-          borderRadius="2xl"
-          overflow="hidden"
-          position="relative"
-          height="200px"
-        >
+        <Box mb={8} borderRadius="2xl" overflow="hidden" position="relative" height="200px">
           <Box
             bgGradient={bannerBg}
             position="absolute"
@@ -102,13 +97,7 @@ export const HomePage = () => {
             flexDirection="column"
             justifyContent="center"
           >
-            <Text
-              color="white"
-              fontSize="2xl"
-              fontWeight="bold"
-              maxW="60%"
-              mb={2}
-            >
+            <Text color="white" fontSize="2xl" fontWeight="bold" maxW="60%" mb={2}>
               Летняя распродажа
             </Text>
             <Text color="whiteAlpha.900" fontSize="lg" maxW="50%">
@@ -132,7 +121,7 @@ export const HomePage = () => {
             Популярные категории
           </Text>
           <SimpleGrid columns={{ base: 2, md: 4 }} spacing={4}>
-            {categories.map(category => (
+            {categories.map((category) => (
               <Box
                 key={category.id}
                 bg={categoryBg}
@@ -145,7 +134,7 @@ export const HomePage = () => {
                 _hover={{
                   transform: 'translateY(-2px)',
                   shadow: 'lg',
-                  _before: { opacity: 0.7 }
+                  _before: { opacity: 0.7 },
                 }}
                 _before={{
                   content: '""',
@@ -157,7 +146,7 @@ export const HomePage = () => {
                   bgGradient: 'brand.gradient.pink',
                   opacity: 0,
                   transition: 'opacity 0.2s',
-                  zIndex: 0
+                  zIndex: 0,
                 }}
               >
                 <VStack spacing={2} position="relative" zIndex={1}>
@@ -174,15 +163,9 @@ export const HomePage = () => {
           <Text fontSize="xl" fontWeight="bold">
             Рекомендуемые товары
           </Text>
-          <SimpleGrid
-            columns={{ base: 2, md: 3, lg: 4 }}
-            spacing={{ base: 4, md: 6 }}
-          >
-            {products.map(product => (
-              <ProductCard
-                key={product.id}
-                {...product}
-              />
+          <SimpleGrid columns={{ base: 2, md: 3, lg: 4 }} spacing={{ base: 4, md: 6 }}>
+            {products.map((product) => (
+              <ProductCard key={product.id} {...product} />
             ))}
           </SimpleGrid>
         </VStack>

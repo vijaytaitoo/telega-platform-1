@@ -28,4 +28,4 @@ export class TelegramAuthDto {
   @IsOptional()
   @IsString()
   photo_url?: string;
-} 
+}

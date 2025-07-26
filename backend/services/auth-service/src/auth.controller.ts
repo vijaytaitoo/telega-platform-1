@@ -18,4 +18,4 @@ export class AuthController {
   async getProfile(@Req() req) {
     return req.user;
   }
-} 
+}

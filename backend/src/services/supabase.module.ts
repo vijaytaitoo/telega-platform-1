@@ -5,6 +5,6 @@ import { ConfigModule } from '@nestjs/config';
 @Module({
   imports: [ConfigModule],
   providers: [SupabaseService],
-  exports: [SupabaseService]
+  exports: [SupabaseService],
 })
 export class SupabaseModule {}

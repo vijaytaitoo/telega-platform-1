@@ -1,12 +1,5 @@
-import {
-  Box,
-  HStack,
-  VStack,
-  Text,
-  Image,
-  Button,
-  useColorModeValue
-} from '@chakra-ui/react';
+import { Box, HStack, VStack, Text, Image, Button, useColorModeValue } from '@chakra-ui/react';
+import React from 'react';
 import { FiShoppingCart } from 'react-icons/fi';
 
 interface ProductPreview {
@@ -23,24 +16,15 @@ interface ChatMessageProps {
   product?: ProductPreview;
 }
 
-export const ChatMessage = ({
-  message,
-  isOwn,
-  timestamp,
-  product
-}: ChatMessageProps) => {
+export const ChatMessage = ({ message, isOwn, timestamp, product }: ChatMessageProps) => {
   const bgColor = useColorModeValue(
     isOwn ? 'brand.gradient.blue' : 'gray.100',
-    isOwn ? 'brand.gradient.blue' : 'gray.700'
+    isOwn ? 'brand.gradient.blue' : 'gray.700',
   );
   const textColor = isOwn ? 'white' : 'gray.800';
 
   return (
-    <Box
-      alignSelf={isOwn ? 'flex-end' : 'flex-start'}
-      maxW="70%"
-      mb={4}
-    >
+    <Box alignSelf={isOwn ? 'flex-end' : 'flex-start'} maxW="70%" mb={4}>
       <Box
         bgGradient={isOwn ? bgColor : undefined}
         bg={!isOwn ? bgColor : undefined}
@@ -54,13 +38,7 @@ export const ChatMessage = ({
         <Text>{message}</Text>
 
         {product && (
-          <Box
-            mt={2}
-            p={2}
-            bg="white"
-            borderRadius="lg"
-            boxShadow="sm"
-          >
+          <Box mt={2} p={2} bg="white" borderRadius="lg" boxShadow="sm">
             <HStack spacing={3}>
               <Image
                 src={product.image}
@@ -90,12 +68,7 @@ export const ChatMessage = ({
           </Box>
         )}
       </Box>
-      <Text
-        fontSize="xs"
-        color="gray.500"
-        mt={1}
-        textAlign={isOwn ? 'right' : 'left'}
-      >
+      <Text fontSize="xs" color="gray.500" mt={1} textAlign={isOwn ? 'right' : 'left'}>
         {timestamp}
       </Text>
     </Box>

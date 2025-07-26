@@ -6,8 +6,8 @@ import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 export class AppController {
   @Get()
   @ApiOperation({ summary: 'Проверка статуса API' })
-  @ApiResponse({ 
-    status: 200, 
+  @ApiResponse({
+    status: 200,
     description: 'API работает нормально',
     schema: {
       type: 'object',
@@ -29,4 +29,4 @@ export class AppController {
       timestamp: new Date().toISOString(),
     };
   }
-} 
+}

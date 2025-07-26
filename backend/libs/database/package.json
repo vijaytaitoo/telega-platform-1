@@ -11,9 +11,9 @@
     "typeorm": "typeorm-ts-node-commonjs"
   },
   "dependencies": {
-    "@nestjs/typeorm": "^10.0.0",
-    "@nestjs/config": "^4.0.2",
     "@nestjs/common": "^11.0.1",
+    "@nestjs/config": "^4.0.2",
+    "@nestjs/typeorm": "^11.0.0",
     "pg": "^8.11.0",
     "typeorm": "^0.3.0"
   },

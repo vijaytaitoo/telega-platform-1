@@ -23,7 +23,7 @@ export class MessageService {
 
   async sendProductCard(token: string, chatId: number, product: Product) {
     const telegramUrl = `https://api.telegram.org/bot${token}/sendPhoto`;
-    
+
     try {
       const response = await axios.post(telegramUrl, {
         chat_id: chatId,
@@ -35,17 +35,17 @@ export class MessageService {
             [
               {
                 text: '🛍 Добавить в корзину',
-                callback_data: `add_to_cart:${product.id}`
-              }
+                callback_data: `add_to_cart:${product.id}`,
+              },
             ],
             [
               {
                 text: '🔍 Подробнее',
-                url: `https://your-domain.com/product/${product.id}`
-              }
-            ]
-          ]
-        }
+                url: `https://your-domain.com/product/${product.id}`,
+              },
+            ],
+          ],
+        },
       });
 
       return response.data;
@@ -56,7 +56,7 @@ export class MessageService {
 
   async sendOrderConfirmation(token: string, chatId: number, orderId: string) {
     const telegramUrl = `https://api.telegram.org/bot${token}/sendMessage`;
-    
+
     try {
       const response = await axios.post(telegramUrl, {
         chat_id: chatId,
@@ -69,11 +69,11 @@ export class MessageService {
             [
               {
                 text: '📋 Детали заказа',
-                callback_data: `view_order:${orderId}`
-              }
-            ]
-          ]
-        }
+                callback_data: `view_order:${orderId}`,
+              },
+            ],
+          ],
+        },
       });
 
       return response.data;
@@ -82,14 +82,19 @@ export class MessageService {
     }
   }
 
-  async sendShippingUpdate(token: string, chatId: number, orderId: string, status: string) {
+  async sendShippingUpdate(
+    token: string,
+    chatId: number,
+    orderId: string,
+    status: string,
+  ) {
     const telegramUrl = `https://api.telegram.org/bot${token}/sendMessage`;
-    
+
     const statusEmoji = {
       processing: '⚙️',
       shipped: '🚚',
       delivered: '✅',
-      cancelled: '❌'
+      cancelled: '❌',
     };
 
     try {
@@ -98,7 +103,7 @@ export class MessageService {
         text: `${statusEmoji[status]} Обновление статуса заказа #${orderId}:
 
 Статус: ${status}`,
-        parse_mode: 'HTML'
+        parse_mode: 'HTML',
       });
 
       return response.data;

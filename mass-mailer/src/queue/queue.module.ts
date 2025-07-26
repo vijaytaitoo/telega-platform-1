@@ -3,8 +3,6 @@ import { BullModule } from '@nestjs/bull';
 import { bullConfig } from './bull.config';
 
 @Module({
-  imports: [
-    BullModule.forRoot(bullConfig),
-  ],
+  imports: [BullModule.forRoot(bullConfig)],
 })
-export class QueueModule {} 
+export class QueueModule {}

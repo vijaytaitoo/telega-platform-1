@@ -9,7 +9,9 @@ export class PaymentWebhookService {
 
   constructor(private readonly configService: ConfigService) {
     const bazuSecret = this.configService.get<string>('BAZU_WEBHOOK_SECRET');
-    const telegramSecret = this.configService.get<string>('TELEGRAM_WEBHOOK_SECRET');
+    const telegramSecret = this.configService.get<string>(
+      'TELEGRAM_WEBHOOK_SECRET',
+    );
 
     if (!bazuSecret) {
       throw new Error('BAZU_WEBHOOK_SECRET is not configured');
@@ -49,4 +51,4 @@ export class PaymentWebhookService {
     // Add more specific validation rules based on provider requirements
     return true;
   }
-} 
+}

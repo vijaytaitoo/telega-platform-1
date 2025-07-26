@@ -1,4 +1,10 @@
-import { IsString, IsOptional, IsObject, MinLength, Matches } from 'class-validator';
+import {
+  IsString,
+  IsOptional,
+  IsObject,
+  MinLength,
+  Matches,
+} from 'class-validator';
 
 import { ApiProperty } from '@nestjs/swagger';
 
@@ -29,16 +35,18 @@ export class CreateShopDto {
   @ApiProperty({
     description: 'Название магазина',
     minLength: 3,
-    example: 'Мой магазин'
+    example: 'Мой магазин',
   })
   @IsString()
-  @MinLength(3, { message: 'Название магазина должно содержать минимум 3 символа' })
+  @MinLength(3, {
+    message: 'Название магазина должно содержать минимум 3 символа',
+  })
   name: string;
 
   @ApiProperty({
     description: 'Описание магазина',
     required: false,
-    example: { ru: 'Описание на русском', en: 'Description in English' }
+    example: { ru: 'Описание на русском', en: 'Description in English' },
   })
   @IsOptional()
   @IsObject()
@@ -47,7 +55,7 @@ export class CreateShopDto {
   @ApiProperty({
     description: 'URL-friendly идентификатор магазина',
     pattern: '^[a-z0-9-]+$',
-    example: 'my-shop'
+    example: 'my-shop',
   })
   @IsString()
   @Matches(/^[a-z0-9-]+$/, {
@@ -61,17 +69,19 @@ export class UpdateShopDto {
     description: 'Название магазина',
     minLength: 3,
     required: false,
-    example: 'Обновленный магазин'
+    example: 'Обновленный магазин',
   })
   @IsOptional()
   @IsString()
-  @MinLength(3, { message: 'Название магазина должно содержать минимум 3 символа' })
+  @MinLength(3, {
+    message: 'Название магазина должно содержать минимум 3 символа',
+  })
   name?: string;
 
   @ApiProperty({
     description: 'Описание магазина',
     required: false,
-    example: { ru: 'Обновленное описание', en: 'Updated description' }
+    example: { ru: 'Обновленное описание', en: 'Updated description' },
   })
   @IsOptional()
   @IsObject()
@@ -81,7 +91,7 @@ export class UpdateShopDto {
     description: 'URL-friendly идентификатор магазина',
     pattern: '^[a-z0-9-]+$',
     required: false,
-    example: 'updated-shop'
+    example: 'updated-shop',
   })
   @IsOptional()
   @IsString()

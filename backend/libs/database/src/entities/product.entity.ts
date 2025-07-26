@@ -9,14 +9,14 @@ export class Product extends BaseEntity {
   @Column({ name: 'shop_id' })
   shopId: string;
 
-  @ManyToOne(() => Shop, shop => shop.products)
+  @ManyToOne(() => Shop, (shop) => shop.products)
   @JoinColumn({ name: 'shop_id' })
   shop: Shop;
 
   @Column({ name: 'category_id', nullable: true })
   categoryId: string;
 
-  @ManyToOne(() => Category, category => category.products)
+  @ManyToOne(() => Category, (category) => category.products)
   @JoinColumn({ name: 'category_id' })
   category: Category;
 
@@ -44,6 +44,6 @@ export class Product extends BaseEntity {
   @Column({ default: 'active' })
   status: string;
 
-  @OneToMany(() => OrderItem, orderItem => orderItem.product)
+  @OneToMany(() => OrderItem, (orderItem) => orderItem.product)
   orderItems: OrderItem[];
-} 
+}

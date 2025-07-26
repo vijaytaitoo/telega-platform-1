@@ -10,7 +10,7 @@ export class Shop extends BaseEntity {
   @Column({ name: 'owner_id' })
   ownerId: string;
 
-  @ManyToOne(() => User, user => user.shops)
+  @ManyToOne(() => User, (user) => user.shops)
   @JoinColumn({ name: 'owner_id' })
   owner: User;
 
@@ -42,9 +42,9 @@ export class Shop extends BaseEntity {
   @Column({ name: 'subscription_expires_at', nullable: true })
   subscriptionExpiresAt: Date;
 
-  @OneToMany(() => Product, product => product.shop)
+  @OneToMany(() => Product, (product) => product.shop)
   products: Product[];
 
-  @OneToMany(() => Order, order => order.shop)
+  @OneToMany(() => Order, (order) => order.shop)
   orders: Order[];
-} 
+}

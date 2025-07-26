@@ -7,11 +7,11 @@ export class Category extends BaseEntity {
   @Column({ name: 'parent_id', nullable: true })
   parentId: string;
 
-  @ManyToOne(() => Category, category => category.children)
+  @ManyToOne(() => Category, (category) => category.children)
   @JoinColumn({ name: 'parent_id' })
   parent: Category;
 
-  @OneToMany(() => Category, category => category.parent)
+  @OneToMany(() => Category, (category) => category.parent)
   children: Category[];
 
   @Column({ type: 'jsonb', default: '{}' })
@@ -26,6 +26,6 @@ export class Category extends BaseEntity {
   @Column({ default: 'active' })
   status: string;
 
-  @OneToMany(() => Product, product => product.category)
+  @OneToMany(() => Product, (product) => product.category)
   products: Product[];
-} 
+}

@@ -12,4 +12,4 @@ export class CreateShopDto {
   @IsNotEmpty()
   @IsString()
   slug: string;
-} 
+}

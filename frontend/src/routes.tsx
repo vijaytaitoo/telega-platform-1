@@ -1,4 +1,5 @@
 import { createBrowserRouter } from 'react-router-dom';
+import React from 'react';
 import { HomePage } from './pages/Home/HomePage';
 import { ProductPage } from './pages/Product/ProductPage';
 import { CheckoutPage } from './pages/Checkout/CheckoutPage';
@@ -7,22 +8,22 @@ import { ChatPage } from './pages/Chat/ChatPage';
 export const router = createBrowserRouter([
   {
     path: '/',
-    element: <HomePage />
+    element: <HomePage />,
   },
   {
     path: '/product/:id',
-    element: <ProductPage />
+    element: <ProductPage />,
   },
   {
     path: '/checkout',
-    element: <CheckoutPage />
+    element: <CheckoutPage />,
   },
   {
     path: '/cart',
-    element: <CheckoutPage />
+    element: <CheckoutPage />,
   },
   {
     path: '/chat',
-    element: <ChatPage />
-  }
+    element: <ChatPage />,
+  },
 ]);

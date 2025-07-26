@@ -1,7 +1,7 @@
 export const BrandConfig = {
   name: 'Tele•Ga',
   description: 'Платформа для создания и управления телеграм-магазинами',
-  
+
   // Медиа-запросы для адаптивности
   breakpoints: {
     mobile: '320px',
@@ -9,7 +9,7 @@ export const BrandConfig = {
     desktop: '1024px',
     wide: '1440px',
   },
-  
+
   // Темы
   themes: {
     light: {
@@ -37,7 +37,7 @@ export const BrandConfig = {
       },
     },
   },
-  
+
   colors: {
     brand: {
       pink: '#FF4F96',
@@ -46,7 +46,7 @@ export const BrandConfig = {
       orange: '#FF9500',
       green: '#00C853',
     },
-    
+
     // Градиенты с поддержкой тем
     gradients: {
       header: {
@@ -66,7 +66,7 @@ export const BrandConfig = {
         dark: 'linear-gradient(to right, rgba(255, 79, 150, 0.9), rgba(217, 78, 255, 0.9))',
       },
     },
-    
+
     // Цвета интерфейса
     interface: {
       background: {
@@ -80,7 +80,7 @@ export const BrandConfig = {
       },
     },
   },
-  
+
   // Анимации и эффекты
   effects: {
     glow: {
@@ -96,7 +96,7 @@ export const BrandConfig = {
       },
     },
   },
-  
+
   // Компоненты с поддержкой тем
   components: {
     // Общие компоненты
@@ -129,7 +129,8 @@ export const BrandConfig = {
             color: '#FFFFFF',
           },
           dark: {
-            background: 'linear-gradient(to right, rgba(255, 79, 150, 0.9), rgba(108, 48, 255, 0.9))',
+            background:
+              'linear-gradient(to right, rgba(255, 79, 150, 0.9), rgba(108, 48, 255, 0.9))',
             color: '#FFFFFF',
           },
         },
@@ -147,7 +148,7 @@ export const BrandConfig = {
         },
       },
     },
-    
+
     // Компоненты Studio
     studio: {
       workspace: {
@@ -191,7 +192,7 @@ export const BrandConfig = {
         },
       },
     },
-    
+
     // Компоненты Marketbase
     marketbase: {
       shop: {
@@ -224,7 +225,8 @@ export const BrandConfig = {
           background: 'rgba(108, 48, 255, 0.8)',
           text: '#FFFFFF',
           active: {
-            background: 'linear-gradient(to right, rgba(255, 79, 150, 0.9), rgba(217, 78, 255, 0.9))',
+            background:
+              'linear-gradient(to right, rgba(255, 79, 150, 0.9), rgba(217, 78, 255, 0.9))',
           },
         },
       },
@@ -260,7 +262,7 @@ export const BrandConfig = {
       },
     },
   },
-  
+
   // Анимации
   animation: {
     timing: {
@@ -285,14 +287,14 @@ export const BrandConfig = {
       },
     },
   },
-  
+
   // Тени
   shadows: {
     sm: '0 2px 4px rgba(108, 48, 255, 0.1)',
     md: '0 4px 8px rgba(108, 48, 255, 0.15)',
     lg: '0 8px 16px rgba(108, 48, 255, 0.2)',
   },
-  
+
   // Скругления
   borderRadius: {
     sm: '0.375rem',
@@ -300,7 +302,7 @@ export const BrandConfig = {
     lg: '1rem',
     full: '9999px',
   },
-  
+
   // Доступность
   accessibility: {
     contrast: {
@@ -323,4 +325,4 @@ export const BrandConfig = {
       boxShadow: '0 0 0 4px rgba(255, 79, 150, 0.2)',
     },
   },
-}; 
+};

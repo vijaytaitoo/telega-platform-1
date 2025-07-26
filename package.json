@@ -2,38 +2,95 @@
   "name": "telega",
   "version": "1.0.0",
   "private": true,
+  "postinstall": "husky install",
+  "commit": "cz",
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
+  },
+  "pnpm": {
+    "overrides": {
+      "@nestjs/common": "11.1.5",
+      "@nestjs/core": "11.1.5",
+      "@nestjs/platform-express": "11.1.5",
+      "@nestjs/typeorm": "11.0.0",
+      "@nestjs/swagger": "7.4.2",
+      "@nestjs/jwt": "11.0.0",
+      "@nestjs/passport": "11.0.5",
+      "typeorm": "0.3.25",
+      "telegraf": "4.16.3"
+    }
+  },
   "workspaces": [
+    "apps/*",
+    "frontend/*",
+    "backend/gateway",
     "backend/libs/*",
     "backend/services/*",
-    "backend/gateway",
-    "frontend/*",
-    "shared/*"
+    "shared/*",
+    "mass-mailer"
   ],
   "scripts": {
-    "build": "npm run build --workspaces",
-    "test": "npm run test --workspaces",
-    "lint": "npm run lint --workspaces",
-    "start:dev": "npm run start:dev --workspace @telega/gateway",
-    "start:prod": "npm run start:prod --workspace @telega/gateway"
+    "release": "semantic-release",
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "test": "turbo run test",
+    "lint": "turbo run lint",
+    "prettier": "prettier --write .",
+    "clean:trash": "find . -name '.DS_Store' -delete && find . -name 'Thumbs.db' -delete && find . -type f -empty -delete",
+    "clean:node_modules": "find . -name 'node_modules' -type d -prune -exec rm -rf '{}' +",
+    "clean": "pnpm run clean:trash && pnpm run clean:node_modules",
+    "apply": "node scripts/create-env-files.js",
+    "start:dev": "pnpm --filter @telega/gateway start:dev",
+    "start:prod": "pnpm --filter @telega/gateway start:prod"
+  },
+  "lint-staged": {
+    "*.{js,ts,tsx,jsx,json,md,css,scss}": [
+      "prettier --write",
+      "eslint --fix"
+    ]
   },
   "devDependencies": {
-    "@types/node": "^20.0.0",
-    "@typescript-eslint/eslint-plugin": "^6.0.0",
-    "@typescript-eslint/parser": "^6.0.0",
-    "eslint": "^8.0.0",
-    "typescript": "^5.0.0"
+    "@commitlint/cli": "^19.8.1",
+    "@commitlint/config-conventional": "^19.8.1",
+    "@semantic-release/changelog": "^6.0.3",
+    "@semantic-release/git": "^10.0.1",
+    "@semantic-release/github": "^11.0.3",
+    "@types/node": "^20.19.9",
+    "@typescript-eslint/eslint-plugin": "^6.21.0",
+    "@typescript-eslint/parser": "^6.21.0",
+    "@vitejs/plugin-react": "^4.7.0",
+    "commitizen": "^4.3.1",
+    "concurrently": "^8.2.1",
+    "cz-conventional-changelog": "^3.3.0",
+    "eslint": "^8.57.1",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-react": "^7.37.5",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.1.2",
+    "prettier": "^3.6.2",
+    "semantic-release": "^24.2.7",
+    "turbo": "^2.5.5",
+    "typescript": "^5.0.0",
+    "vite": "^5.4.19"
   },
   "dependencies": {
-    "@nestjs/jwt": "^11.0.0",
-    "@nestjs/passport": "^11.0.5",
-    "@nestjs/typeorm": "^11.0.0",
+    "@nestjs/common": "11.1.5",
+    "@nestjs/core": "11.1.5",
+    "@nestjs/jwt": "11.0.0",
+    "@nestjs/passport": "11.0.5",
+    "@nestjs/platform-express": "11.1.5",
+    "@nestjs/swagger": "7.4.2",
+    "@nestjs/typeorm": "11.0.0",
     "axios": "^1.10.0",
     "compression": "^1.8.0",
+    "dotenv": "^17.2.1",
     "helmet": "^8.1.0",
     "passport-custom": "^1.1.1",
     "passport-jwt": "^4.0.1",
-    "telegraf": "^4.16.3",
-    "typeorm": "^0.3.25",
+    "telegraf": "4.16.3",
+    "typeorm": "0.3.25",
     "uuid": "^11.1.0"
   }
 }

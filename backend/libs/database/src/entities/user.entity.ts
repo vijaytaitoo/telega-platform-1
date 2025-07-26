@@ -26,7 +26,13 @@ export class User extends BaseEntity {
   @Column({ default: 'user' })
   role: string;
 
-  @Column({ name: 'teleton_balance', type: 'decimal', precision: 10, scale: 2, default: 0 })
+  @Column({
+    name: 'teleton_balance',
+    type: 'decimal',
+    precision: 10,
+    scale: 2,
+    default: 0,
+  })
   teletonBalance: number;
 
   @Column({ name: 'subscription_type', default: 'free' })
@@ -35,9 +41,9 @@ export class User extends BaseEntity {
   @Column({ name: 'subscription_expires_at', nullable: true })
   subscriptionExpiresAt: Date;
 
-  @OneToMany(() => Shop, shop => shop.owner)
+  @OneToMany(() => Shop, (shop) => shop.owner)
   shops: Shop[];
 
-  @OneToMany(() => Order, order => order.customer)
+  @OneToMany(() => Order, (order) => order.customer)
   orders: Order[];
-} 
+}

@@ -11,7 +11,9 @@ export class SupabaseService {
     const supabaseKey = this.configService.get<string>('SUPABASE_ANON_KEY');
 
     if (!supabaseUrl || !supabaseKey) {
-      throw new Error('SUPABASE_URL и SUPABASE_ANON_KEY должны быть определены в переменных окружения');
+      throw new Error(
+        'SUPABASE_URL и SUPABASE_ANON_KEY должны быть определены в переменных окружения',
+      );
     }
 
     this.supabase = createClient(supabaseUrl, supabaseKey);

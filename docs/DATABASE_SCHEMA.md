@@ -18,6 +18,7 @@ erDiagram
 ## 2. Таблицы
 
 ### 2.1 Users (Пользователи)
+
 ```sql
 CREATE TABLE users (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
@@ -40,6 +41,7 @@ CREATE INDEX idx_users_username ON users(username);
 ```
 
 ### 2.2 Shops (Магазины)
+
 ```sql
 CREATE TABLE shops (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
@@ -62,6 +64,7 @@ CREATE INDEX idx_shops_slug ON shops(slug);
 ```
 
 ### 2.3 Products (Товары)
+
 ```sql
 CREATE TABLE products (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
@@ -84,6 +87,7 @@ CREATE INDEX idx_products_category_id ON products(category_id);
 ```
 
 ### 2.4 Categories (Категории)
+
 ```sql
 CREATE TABLE categories (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
@@ -102,6 +106,7 @@ CREATE INDEX idx_categories_slug ON categories(slug);
 ```
 
 ### 2.5 Orders (Заказы)
+
 ```sql
 CREATE TABLE orders (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
@@ -124,6 +129,7 @@ CREATE INDEX idx_orders_status ON orders(status);
 ```
 
 ### 2.6 OrderItems (Позиции заказа)
+
 ```sql
 CREATE TABLE order_items (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
@@ -141,6 +147,7 @@ CREATE INDEX idx_order_items_product_id ON order_items(product_id);
 ```
 
 ### 2.7 Templates (Шаблоны)
+
 ```sql
 CREATE TABLE templates (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
@@ -160,6 +167,7 @@ CREATE INDEX idx_templates_subscription_type ON templates(subscription_type);
 ```
 
 ### 2.8 Teleton (Внутренняя валюта)
+
 ```sql
 CREATE TABLE teleton_transactions (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
@@ -178,6 +186,7 @@ CREATE INDEX idx_teleton_transactions_type ON teleton_transactions(type);
 ## 3. Дополнительные таблицы
 
 ### 3.1 Analytics (Аналитика)
+
 ```sql
 CREATE TABLE analytics_events (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
@@ -194,6 +203,7 @@ CREATE INDEX idx_analytics_events_type ON analytics_events(event_type);
 ```
 
 ### 3.2 Notifications (Уведомления)
+
 ```sql
 CREATE TABLE notifications (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
@@ -213,6 +223,7 @@ CREATE INDEX idx_notifications_type ON notifications(type);
 ## 4. Безопасность
 
 ### 4.1 Аудит
+
 ```sql
 CREATE TABLE audit_logs (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
@@ -232,6 +243,7 @@ CREATE INDEX idx_audit_logs_entity ON audit_logs(entity_type, entity_id);
 ```
 
 ### 4.2 Сессии
+
 ```sql
 CREATE TABLE sessions (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
@@ -264,4 +276,4 @@ CREATE INDEX idx_sessions_expires_at ON sessions(expires_at);
 2. Внешние ключи: обязательны для связей
 3. Индексы на часто используемых полях
 4. Составные индексы для сложных запросов
-5. Партиционирование для больших таблиц (analytics_events) 
+5. Партиционирование для больших таблиц (analytics_events)

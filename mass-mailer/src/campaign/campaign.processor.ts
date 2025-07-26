@@ -29,9 +29,9 @@ export class CampaignProcessor {
     const token = process.env.DEFAULT_TELEGRAM_BOT_TOKEN;
     let recipientsToSend;
     if (retryOnly && Array.isArray(chatIds)) {
-      recipientsToSend = campaign.recipients.filter(r => chatIds.includes(r.userId));
+      recipientsToSend = campaign.recipients.filter((r) => chatIds.includes(r.userId));
     } else {
-      recipientsToSend = campaign.recipients.filter(r => r.status === 'PENDING');
+      recipientsToSend = campaign.recipients.filter((r) => r.status === 'PENDING');
     }
     for (const [i, recipient] of recipientsToSend.entries()) {
       // Проверка статуса кампании перед отправкой
@@ -41,13 +41,18 @@ export class CampaignProcessor {
         this.gateway.sendAborted(campaignId, {
           status: 'ABORTED',
           sent: i,
-          failed: recipientsToSend.slice(0, i).filter(r => r.status === 'ERROR').length,
+          failed: recipientsToSend.slice(0, i).filter((r) => r.status === 'ERROR').length,
           total: recipientsToSend.length,
         });
         return;
       }
       try {
-        await this.telegram.sendMessage(token, recipient.userId, campaign.message, campaign.buttons);
+        await this.telegram.sendMessage(
+          token,
+          recipient.userId,
+          campaign.message,
+          campaign.buttons,
+        );
         await this.prisma.recipient.update({
           where: { id: recipient.id },
           data: { status: 'SENT', sentAt: new Date() },
@@ -55,7 +60,7 @@ export class CampaignProcessor {
         this.gateway.sendProgress(campaignId, {
           status: 'IN_PROGRESS',
           sent: i + 1,
-          failed: recipientsToSend.slice(0, i + 1).filter(r => r.status === 'ERROR').length,
+          failed: recipientsToSend.slice(0, i + 1).filter((r) => r.status === 'ERROR').length,
           total: recipientsToSend.length,
           currentUser: recipient.userId,
         });
@@ -79,9 +84,9 @@ export class CampaignProcessor {
     });
     this.gateway.sendCompleted(campaignId, {
       status: 'COMPLETED',
-      sent: recipientsToSend.filter(r => r.status === 'SENT').length,
-      failed: recipientsToSend.filter(r => r.status === 'ERROR').length,
+      sent: recipientsToSend.filter((r) => r.status === 'SENT').length,
+      failed: recipientsToSend.filter((r) => r.status === 'ERROR').length,
       total: recipientsToSend.length,
     });
   }
-} 
+}

@@ -1,4 +1,10 @@
-import { Entity, Column, ManyToOne, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import {
+  Entity,
+  Column,
+  ManyToOne,
+  CreateDateColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { BaseEntity } from './base.entity';
 import { User } from './user.entity';
 import { Order } from './order.entity';
@@ -20,10 +26,10 @@ export class Payment extends BaseEntity {
   @Column({ nullable: true })
   transactionId: string;
 
-  @ManyToOne(() => User, user => user.payments)
+  @ManyToOne(() => User, (user) => user.payments)
   user: User;
 
-  @ManyToOne(() => Order, order => order.payments)
+  @ManyToOne(() => Order, (order) => order.payments)
   order: Order;
 
   @CreateDateColumn()

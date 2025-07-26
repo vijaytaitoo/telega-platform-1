@@ -17,7 +17,7 @@ const ProductCard = styled.div`
   border-radius: ${BrandConfig.borderRadius.lg};
   padding: 1.5rem;
   transition: all ${BrandConfig.animation.timing.normal} ${BrandConfig.animation.easing.smooth};
-  
+
   &:hover {
     transform: ${BrandConfig.studio.workspace.card.hover.transform};
     box-shadow: ${BrandConfig.studio.workspace.card.hover.shadow};
@@ -42,7 +42,7 @@ const SaveButton = styled.button`
   padding: 0.75rem 1.5rem;
   border-radius: ${BrandConfig.borderRadius.md};
   transition: all ${BrandConfig.animation.timing.fast} ${BrandConfig.animation.easing.default};
-  
+
   &:hover {
     filter: ${BrandConfig.studio.buttons.save.hover.filter};
   }
@@ -54,7 +54,7 @@ const AddProductButton = styled.button`
   padding: 0.75rem 1.5rem;
   border-radius: ${BrandConfig.borderRadius.md};
   transition: all ${BrandConfig.animation.timing.fast} ${BrandConfig.animation.easing.default};
-  
+
   &:hover {
     border: ${BrandConfig.studio.buttons.addProduct.hover.border};
     transform: ${BrandConfig.studio.buttons.addProduct.hover.transform};
@@ -96,20 +96,23 @@ const FiltersPanel = styled.div`
 `;
 
 const FilterButton = styled.button<{ active?: boolean }>`
-  background: ${props => props.active 
-    ? BrandConfig.marketbase.filters.active.background 
-    : BrandConfig.marketbase.filters.inactive.background};
-  color: ${props => props.active 
-    ? BrandConfig.marketbase.filters.active.color 
-    : BrandConfig.marketbase.filters.inactive.color};
+  background: ${(props) =>
+    props.active
+      ? BrandConfig.marketbase.filters.active.background
+      : BrandConfig.marketbase.filters.inactive.background};
+  color: ${(props) =>
+    props.active
+      ? BrandConfig.marketbase.filters.active.color
+      : BrandConfig.marketbase.filters.inactive.color};
   padding: 0.5rem 1rem;
   border-radius: ${BrandConfig.borderRadius.full};
   transition: all ${BrandConfig.animation.timing.fast} ${BrandConfig.animation.easing.default};
-  
+
   &:hover {
-    background: ${props => props.active 
-      ? BrandConfig.marketbase.filters.active.background 
-      : BrandConfig.marketbase.filters.inactive.hover.background};
+    background: ${(props) =>
+      props.active
+        ? BrandConfig.marketbase.filters.active.background
+        : BrandConfig.marketbase.filters.inactive.hover.background};
   }
 `;
 ```
@@ -124,7 +127,7 @@ const BuyButton = styled.button`
   border-radius: ${BrandConfig.borderRadius.md};
   box-shadow: ${BrandConfig.marketbase.buttons.buy.shadow};
   transition: all ${BrandConfig.animation.timing.fast} ${BrandConfig.animation.easing.default};
-  
+
   &:hover {
     transform: ${BrandConfig.marketbase.buttons.buy.hover.transform};
     box-shadow: ${BrandConfig.marketbase.buttons.buy.hover.shadow};
@@ -137,7 +140,7 @@ const SubscribeButton = styled.button`
   padding: 0.75rem 1.5rem;
   border-radius: ${BrandConfig.borderRadius.md};
   transition: all ${BrandConfig.animation.timing.fast} ${BrandConfig.animation.easing.default};
-  
+
   &:hover {
     filter: ${BrandConfig.marketbase.buttons.subscribe.hover.filter};
   }
@@ -149,7 +152,7 @@ const ReviewButton = styled.button`
   padding: 0.75rem 1.5rem;
   border-radius: ${BrandConfig.borderRadius.md};
   transition: all ${BrandConfig.animation.timing.fast} ${BrandConfig.animation.easing.default};
-  
+
   &:hover {
     filter: ${BrandConfig.marketbase.buttons.review.hover.filter};
   }
@@ -191,7 +194,7 @@ const HeaderButton = styled.button`
   padding: 0.5rem 1rem;
   border-radius: ${BrandConfig.borderRadius.md};
   transition: all ${BrandConfig.animation.timing.fast} ${BrandConfig.animation.easing.default};
-  
+
   &:hover {
     background: ${BrandConfig.components.header.buttons.categories.hover.background};
   }
@@ -199,9 +202,9 @@ const HeaderButton = styled.button`
 
 const SearchButton = styled(HeaderButton)`
   background: ${BrandConfig.components.header.buttons.search.background};
-  
+
   &:hover {
     background: ${BrandConfig.components.header.buttons.search.hover.background};
   }
 `;
-``` 
+```

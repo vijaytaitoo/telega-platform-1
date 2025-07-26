@@ -32,4 +32,4 @@ export class ShopsService {
   async remove(id: string): Promise<void> {
     await this.shopRepository.delete(id);
   }
-} 
+}

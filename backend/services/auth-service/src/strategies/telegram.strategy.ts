@@ -14,4 +14,4 @@ export class TelegramStrategy extends PassportStrategy(Strategy, 'telegram') {
     const authData: TelegramAuthDto = req.body;
     return this.authService.validateTelegramAuth(authData);
   }
-} 
+}

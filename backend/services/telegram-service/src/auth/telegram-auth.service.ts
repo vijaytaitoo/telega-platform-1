@@ -20,9 +20,7 @@ export class TelegramAuthService {
       throw new Error('TELEGRAM_BOT_TOKEN is not set');
     }
 
-    const secretKey = createHash('sha256')
-      .update(botToken)
-      .digest();
+    const secretKey = createHash('sha256').update(botToken).digest();
 
     const dataCheckString = Object.entries(data)
       .filter(([key]) => key !== 'hash')
@@ -66,9 +64,7 @@ export class TelegramAuthService {
         throw new Error('TELEGRAM_BOT_TOKEN is not set');
       }
 
-      const secretKey = createHash('sha256')
-        .update(botToken)
-        .digest();
+      const secretKey = createHash('sha256').update(botToken).digest();
 
       const dataCheckString = Array.from(searchParams.entries())
         .sort(([a], [b]) => a.localeCompare(b))

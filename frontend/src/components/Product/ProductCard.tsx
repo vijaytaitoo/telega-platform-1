@@ -1,4 +1,5 @@
 import {
+import React from 'react';
   Box,
   Image,
   Text,
@@ -6,7 +7,7 @@ import {
   Button,
   VStack,
   HStack,
-  useColorModeValue
+  useColorModeValue,
 } from '@chakra-ui/react';
 import { FiShoppingCart } from 'react-icons/fi';
 
@@ -19,13 +20,7 @@ interface ProductCardProps {
   isNew?: boolean;
 }
 
-export const ProductCard = ({
-  title,
-  price,
-  image,
-  discount,
-  isNew
-}: ProductCardProps) => {
+export const ProductCard = ({ title, price, image, discount, isNew }: ProductCardProps) => {
   const cardBg = useColorModeValue('white', 'gray.800');
   const discountedPrice = discount ? price - (price * discount) / 100 : price;
 
@@ -46,17 +41,11 @@ export const ProductCard = ({
         height: '200px',
         bgGradient: 'brand.gradient.purple',
         opacity: 0.05,
-        zIndex: 0
+        zIndex: 0,
       }}
     >
       <Box position="relative">
-        <Image
-          src={image}
-          alt={title}
-          width="100%"
-          height="200px"
-          objectFit="cover"
-        />
+        <Image src={image} alt={title} width="100%" height="200px" objectFit="cover" />
         {isNew && (
           <Badge
             position="absolute"
@@ -91,11 +80,7 @@ export const ProductCard = ({
               {discountedPrice.toLocaleString()} ₽
             </Text>
             {discount && (
-              <Text
-                fontSize="sm"
-                color="gray.500"
-                textDecoration="line-through"
-              >
+              <Text fontSize="sm" color="gray.500" textDecoration="line-through">
                 {price.toLocaleString()} ₽
               </Text>
             )}
@@ -112,8 +97,8 @@ export const ProductCard = ({
               transform: 'translateY(-1px)',
               shadow: 'md',
               _before: {
-                opacity: 0.8
-              }
+                opacity: 0.8,
+              },
             }}
             position="relative"
             overflow="hidden"
@@ -127,7 +112,7 @@ export const ProductCard = ({
               bgGradient: 'brand.gradient.yellow',
               opacity: 0.6,
               transition: 'opacity 0.2s',
-              zIndex: -1
+              zIndex: -1,
             }}
           >
             В корзину

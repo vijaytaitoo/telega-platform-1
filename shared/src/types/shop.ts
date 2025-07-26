@@ -44,11 +44,13 @@ export const orderSchema = z.object({
     username: z.string().optional(),
     name: z.string(),
   }),
-  items: z.array(z.object({
-    productId: z.string(),
-    quantity: z.number(),
-    price: z.number(),
-  })),
+  items: z.array(
+    z.object({
+      productId: z.string(),
+      quantity: z.number(),
+      price: z.number(),
+    }),
+  ),
   status: z.enum(['pending', 'paid', 'processing', 'shipped', 'delivered', 'cancelled']),
   totalAmount: z.number(),
   paymentMethod: z.string(),
@@ -58,4 +60,4 @@ export const orderSchema = z.object({
 
 export type Shop = z.infer<typeof shopSchema>;
 export type Product = z.infer<typeof productSchema>;
-export type Order = z.infer<typeof orderSchema>; 
+export type Order = z.infer<typeof orderSchema>;

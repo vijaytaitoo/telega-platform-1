@@ -17,9 +17,9 @@ export class AuthService {
   async validateTelegramAuth(authDto: TelegramAuthDto): Promise<any> {
     // Проверяем подпись данных от Telegram
     const checkString = Object.keys(authDto)
-      .filter(key => key !== 'hash')
+      .filter((key) => key !== 'hash')
       .sort()
-      .map(key => `${key}=${authDto[key]}`)
+      .map((key) => `${key}=${authDto[key]}`)
       .join('\n');
 
     const secretKey = crypto
