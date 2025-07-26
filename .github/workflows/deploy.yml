@@ -1,4 +1,4 @@
-name: Deploy with Telegram Notification
+name: 🛠 Deploy with Telegram Notifications
 
 on:
   push:
@@ -9,26 +9,25 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: 📥 Checkout repo
+      - name: 📦 Checkout
         uses: actions/checkout@v3
 
-      - name: ⚙️ Build & Deploy
+      - name: 🚀 Run deploy
         run: |
-          echo "🔧 Здесь будет деплой..."
-          # ./deploy.sh или любая другая команда деплоя
+          echo "✅ Процесс деплоя успешно выполнен."
 
-      - name: ✅ Send success Telegram notification
+      - name: ✅ Telegram success message
         if: success()
         run: |
           curl -s -X POST https://api.telegram.org/bot${{ secrets.TELEGRAM_DEPLOY_BOT_TOKEN }}/sendMessage \
             -d chat_id=${{ secrets.TELEGRAM_DEPLOY_CHAT_ID }} \
             -d parse_mode=Markdown \
-            -d text="✅ *Успешный деплой проекта Tele•Ga!*\nВетка: \`main\`\n✅ Всё прошло успешно."
+            -d text="✅ *Успешный деплой!*\nПроект: *Tele•Ga*\nВетка: \`main\`\nGitHub Actions прошли успешно."
 
-      - name: ❌ Send failure Telegram notification
+      - name: ❌ Telegram fail message
         if: failure()
         run: |
           curl -s -X POST https://api.telegram.org/bot${{ secrets.TELEGRAM_DEPLOY_BOT_TOKEN }}/sendMessage \
             -d chat_id=${{ secrets.TELEGRAM_DEPLOY_CHAT_ID }} \
             -d parse_mode=Markdown \
-            -d text="❌ *Ошибка деплоя проекта Tele•Ga!*\nВетка: \`main\`\nПроверьте логи GitHub Actions." 
+            -d text="❌ *Ошибка при деплое!*\nВетка: \`main\`\nПроверь GitHub Actions логи." 
